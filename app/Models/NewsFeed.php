@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class NewsFeed extends Model
 {
@@ -16,14 +17,14 @@ class NewsFeed extends Model
         'created_by',
     ];
 
-    public function classRooms()
+    public function classRooms() : HasMany
     {
-        return $this->belongsTo(ClassRoom::class);
+        return $this->hasMany(Comment::class);
     }
 
-    public function created_by()
+    public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function userComments() : BelongsToMany

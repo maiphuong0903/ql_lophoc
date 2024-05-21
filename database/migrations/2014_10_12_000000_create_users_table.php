@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('gender')->nullable()->comment('Nam, Nữ');
             $table->date('birthday')->nullable();
-            $table->string('image')->nullable();
+            $table->string('avatar')->nullable();
             $table->integer('role')->default(3)->comment('1: Admin, 2: Teacher, 3: Student');
             $table->rememberToken();
             $table->softDeletes();

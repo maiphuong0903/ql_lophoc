@@ -10,8 +10,10 @@
                 </button>
             </div>
 
-            <form action="" method="post">
-                <input type="text" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50" placeholder="Nhập chủ đề...">
+            <form action="{{ route('class.topic.store', $classRoom->id) }}" method="post">
+                @csrf
+                <input type="hidden" name="class_room_id" value="{{ $classRoom->id }}">
+                <input type="text" name="name" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50" placeholder="Nhập chủ đề...">
                 <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Tạo</button>
             </form>
         </div>

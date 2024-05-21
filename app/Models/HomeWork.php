@@ -19,9 +19,9 @@ class HomeWork extends Model
         'homework_file',
     ];
 
-    public function created_by()
+    public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function topics()

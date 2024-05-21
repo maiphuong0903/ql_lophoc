@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('class_rooms', function (Blueprint $table) {
             $table->id();
+            $table->string('code', 6)->unique()->comment('mã lớp');
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('image')->nullable();

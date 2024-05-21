@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +30,7 @@ class User extends Authenticatable
         'address',
         'gender',
         'birthday',
-        'image',
+        'avatar',
         'role',
     ];
 
@@ -66,9 +68,9 @@ class User extends Authenticatable
         );
     }
 
-    public function created_by_news_feed() : HasMany
+    public function created_by_comment() : HasMany
     {
-        return $this->hasMany(NewsFeed::class);
+        return $this->hasMany(NewsFeed::class, 'id');
     }
 
     public function newsFeedsComments() : BelongsToMany

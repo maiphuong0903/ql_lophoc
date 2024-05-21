@@ -11,9 +11,10 @@
             </div>
             <p class="font-light text-[14px] py-5 text-left">Học sinh được giáo viên thêm vào lớp sẽ không cần chờ phê duyệt</p>
 
-            <form action="" method="post">
-                <input type="text" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50" placeholder="Nhập email đăng nhập của học sinh...">
-                <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Tìm kiếm</button>
+            <form action="{{ route('class.member.addStudent') }}" method="post">
+                @csrf
+                <input type="text" name="email" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50" placeholder="Nhập email đăng nhập của học sinh...">
+                <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Thêm vào lớp</button>
             </form>
         </div>
     </div>

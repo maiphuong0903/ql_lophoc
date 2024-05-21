@@ -16,12 +16,12 @@
         
         <ul class="flex flex-shrink-0 space-x-8 items-center">
             <li class="relative hidden md:block">
-                <button class="relative align-middle rounded-md flex flex-1 gap-2 items-center border border-blue-400 px-2 py-1.5 text-md">
+                <a href="{{ route('class') }}" class="relative align-middle rounded-md flex flex-1 gap-2 items-center border border-blue-400 px-2 py-1.5 text-md">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                       </svg>                               
                     <span class="text-blue-400">Lớp học</span>            
-                </button>
+                </a>
             </li>
 
             <li class="relative">
@@ -36,13 +36,15 @@
             <li class="relative">
                 <div class="flex flex-1 gap-3 items-center">
                     <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none">
-                        <img class="object-cover w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;s=aa3a807e1bbdfd4364d1f449eaa96d82" alt="" aria-hidden="true">
+                        <img src="{{ asset('images/avatar.jpg') }}" alt="" class="object-cover w-10 h-10 rounded-full">
                     </button>
                     <div>
-                        <h1 class="text-sm font-semibold text-gray-800">Mai Thị Phượng</h1>
-                        <p class="text-sm text-gray-800">Quản trị viên</p>
+                        <h1 class="text-sm font-semibold text-gray-800">{{auth()->user()->name}}</h1>
+                        <p class="text-sm text-gray-800">
+                            {{ auth()->user()->role == 1 ? 'Admin' : (auth()->user()->role == 2 ? 'Giáo viên' : 'Học sinh') }}
+                        </p>                        
                     </div>
-                    <div id="user-menu-togle" class="cursor-pointer">
+                    <button type="button" id="user-menu-togle" class="cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-black icon-down">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                           </svg>  
@@ -50,7 +52,7 @@
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-black hidden icon-up">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
                           </svg>                                                 
-                    </div>
+                    </button>
                 </div>
                
                 <div class="hidden" id="user-menu">
@@ -64,7 +66,7 @@
                             </a>
                         </li>
                         <li class="flex">
-                            <a class="inline-flex items-center w-full px-2 py-1 text-md font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800" href="#">
+                            <a href="{{ route('password.reset') }}" class="inline-flex items-center w-full px-2 py-1 text-md font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                                   </svg>                                  
@@ -72,13 +74,10 @@
                             </a>
                         </li>
                         <li class="flex">
-                            <form method="POST" action="{{ route('logout') }}" class="hover:bg-gray-100 hover:text-gray-800 w-full px-2 py-1 text-md font-semibold transition-colors duration-150 rounded-md items-center">
-                                @csrf
-                                <button type="submit" class="inline-flex">
-                                    <svg class="w-5 h-5 mr-3" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
-                                    <span>Đăng xuất</span>
-                                </button>
-                            </form>                    
+                            <a href="{{ route('logout') }}" class="inline-flex items-center w-full px-2 py-1 text-md font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800">
+                                <svg class="w-5 h-5 mr-3" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                                <span>Đăng xuất</span>
+                            </a>                
                         </li>
                     </ul>
                 </div>

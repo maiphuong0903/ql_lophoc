@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClassRoomRequest;
 use App\Models\ClassRoom;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ClassRoomController extends Controller
 {
-    public function index()
-    {
-        $classRoom = ClassRoom::all();
+    public function index(Request $request)
+    {      
+        $classRoom = ClassRoom::filter($request->all())->where('created_by', auth()->user()->id)->get();
         return view('classes.index', compact('classRoom'));
     }
 
@@ -19,14 +22,22 @@ class ClassRoomController extends Controller
         return view('classes.create');
     }
 
-    public function store(Request $request)
+    public function store(ClassRoomRequest $request)
     {
         try{
-            $data = $request->all();  
-            $image_url = $this->uploadImage($request['image']); 
-            $data['image'] = $image_url;
-            $data['created_by'] = 1;
-            ClassRoom::create($data);
+            $classRoom = $request->all();
+            $code = Str::random(6); 
+          
+            while (ClassRoom::where('code', strtoupper($code))->exists()) {
+                $code = Str::random(6); 
+            }
+           
+            $image_url = $this->uploadImage($request['image']);  
+            $classRoom['code'] = strtoupper($code);
+            $classRoom['image'] = $image_url;
+            $classRoom['created_by'] = auth()->user()->id;
+            
+            ClassRoom::create($classRoom);
 
             return redirect()->route('class')->with('success', 'Tạo lớp học thành công');
         }catch(Exception $e){
@@ -34,15 +45,54 @@ class ClassRoomController extends Controller
         }
     }
 
+    public function edit($id){
+        $classRoom = ClassRoom::find($id);
+        return view('classes.update', compact('classRoom'));
+    }
+
+    public function update(ClassRoomRequest $request, $id){
+        try{
+            $classRoom = ClassRoom::find($id);
+            if (!$classRoom) {
+                return redirect()->back()->with('error', 'Lớp học không tồn tại');
+            }
+            $classRoomData = $request->all(); 
+            $image_url = $this->uploadImage($request['image']); 
+            $classRoomData['image'] = $image_url;
+            $classRoomData['created_by'] = auth()->user()->id;
+            $classRoom->update($classRoomData);
+
+            return redirect()->route('class')->with('success', 'Cập nhât lớp học thành công');
+        }catch(Exception $e){
+            return redirect()->back()->with('error', 'Cập nhật lớp học không thành công');
+        }
+    }
+
+    public function destroy($id){
+        try{        
+            $classRoom = ClassRoom::find($id);          
+            if (!$classRoom) {
+                return redirect()->back()->with('error', 'Lớp học không tồn tại');
+            }         
+            $classRoom->delete();
+            return redirect()->route('class')->with('success', 'Xóa lớp học thành công');
+        }catch(Exception $e){
+            Log::info("Error: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Xóa lớp học không thành công');
+        }
+    }
+
     public function uploadImage($file) {
-        if ($file) {
+        if ($file) {   
             $originName = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();           
             $currentDateTime = now()->format('dmY_Hi');
             $fileName = pathinfo($originName, PATHINFO_FILENAME);
             $fileName = $fileName . '_' . $currentDateTime . '.' . $extension;
-            $path = $file->storeAs('public/images', $fileName);
-            return asset('public/storage/images/' . $fileName);
+            $file->storeAs('public/images', $fileName);
+            return asset('storage/images/' . $fileName);
         }
+
+        return null;
     }
 }

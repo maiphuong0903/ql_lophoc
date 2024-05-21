@@ -3,7 +3,7 @@
 @section('title', 'Members')
 
 @section('content')
-    <div class="border-y px-5 py-5 bg-white font-medium fixed top-16 w-full overflow-y-auto z-10">
+    <div class="border-y px-5 py-5 bg-white font-medium fixed top-16 w-full overflow-y-auto">
         <h1>Thành viên lớp hoc (0)</h1>
     </div>
     <div class="mt-20 mx-8 mr-80">

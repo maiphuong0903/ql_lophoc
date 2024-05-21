@@ -21,9 +21,9 @@ class Topic extends Model
         return $this->belongsTo(ClassRoom::class);
     }
 
-    public function created_by()
+    public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function documents() : HasMany

@@ -17,9 +17,9 @@ class Question extends Model
         'created_by',
     ];
 
-    public function created_by()
+    public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function topics()

@@ -25,9 +25,9 @@
 </head>
 <body>
     <body>
-        <div id="overlay" class="fixed inset-0 bg-black opacity-50 z-20 hidden"></div>
+        <div id="overlay" class="fixed inset-0 bg-black opacity-50 z-10 hidden"></div>
         <div class="flex flex-col min-h-screen">
-            <div class="fixed top-0 left-0 w-full z-10">
+            <div class="fixed top-0 left-0 w-full">
                 @include('partial.header')
             </div>
             <div class="flex flex-1">

@@ -10,13 +10,23 @@
                 </button>
             </div>
 
-            <form action="" method="GET">
+            <form action="{{ route('class.document.store', $classRoom->id) }}" method="POST">
+                @csrf
                 <label for="">Tiêu đề: </label>
-                <input type="text" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3" placeholder="Tiêu đề...">
+                <input type="text" name="title" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3" placeholder="Tiêu đề...">
+                
+                <label for="">Chủ đề: </label>
+                <select name="topic_id" id="" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3">
+                    <option value="">Không có chủ đề</option>
+                    @foreach ($topics as $topic)
+                        <option value="{{ $topic->id }}">{{ $topic->name }}</option>              
+                    @endforeach             
+                </select>
+                
                 <label for="">Mô tả: </label>
-                <textarea name="" id="" cols="10" rows="5" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3"></textarea>
+                <textarea name="description" id="" cols="10" rows="3" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3"></textarea>
                 <label for="">Đính kèm file: </label>
-                <div class="flex justify-between pb-5">
+                <div class="flex justify-between pb-2">
                     <span class="file-name"></span> 
                     <button id="removeFile" class="text-gray-500 hover:text-red-500 hidden show_file">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +46,7 @@
                                 Tải lên
                              </p>
                         </div>
-                        <input type="file" id="fileInput" class="hidden">
+                        <input type="file" id="fileInput" class="hidden" name="document_url">
                     </label>
                 </div>
                 <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Tạo</button>
