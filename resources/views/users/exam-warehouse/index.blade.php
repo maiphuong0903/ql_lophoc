@@ -43,7 +43,7 @@
         
             <div class="col-span-1 flex items-center gap-2 bg-blue-500 py-2 px-2 rounded-md text-white justify-center">         
                 <button id="openExamForm">Tạo bài kiểm tra</button>
-                @include('users.exam-warehouse.dialog-create')
+                {{-- @include('users.exam-warehouse.dialog-create') --}}
             </div>
         </div>
 

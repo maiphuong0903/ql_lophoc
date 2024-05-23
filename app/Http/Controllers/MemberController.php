@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
-    public function index($id)
+    public function index()
     {
-        $classRoom = ClassRoom::find($id);
-        return view('users.members.index', compact('classRoom'));
+        return view('users.members.index');
     }
 
    public function addStudent(Request $request){

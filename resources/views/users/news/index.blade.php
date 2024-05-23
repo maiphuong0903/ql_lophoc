@@ -24,9 +24,10 @@
                         </div>     
                     </form>       
                 </div>
-                <div class="bg-white rounded-lg shadow-sm py-5 px-5 mt-5">
-                    {{-- trường hợp có tin mới --}}
-                    @forelse ($newsFeeds as $newsFeed)                   
+                @forelse ($newsFeeds as $newsFeed) 
+                    @include('partial.modal-delete')                  
+                    <div class="bg-white rounded-lg shadow-sm py-5 px-5 mt-5">
+                        {{-- trường hợp có tin mới --}}
                         <div class="flex flex-1 justify-between items-center">
                             <div class="flex flex-1 gap-3">
                                 @if($newsFeed->author->avatar)
@@ -41,23 +42,23 @@
                             </div>
                             @include('users.news.edit') 
                             <div class="relative">
-                                <button id="menu-news-toggle" class="flex items-center">
+                                <button class="menu-news-toggle flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
                                     </svg>                                  
                                 </button>
-                                <div id="menu-news" class="hidden absolute right-0 w-48 bg-white rounded-lg shadow-xl z-10">
+                                <div class="menu-news hidden absolute right-0 w-52 bg-white rounded-lg shadow-xl z-10">
                                     <div class="flex flex-1 items-center gap-2 px-4 pb-2 pt-6 hover:bg-gray-100">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                           </svg>                                  
-                                          <button type="button" data-news-id="{{ $newsFeed->id }}" data-news-content="{{ $newsFeed->content }}" class="block text-md" id="openNewsForm">Chỉnh sửa bài viết</button>
+                                          <button type="button" data-news-id="{{ $newsFeed->id }}" data-news-content="{{ $newsFeed->content }}" class="block text-md" id="openNewsForm">Chỉnh sửa tin đăng</button>
                                     </div>
                                     <div class="flex flex-1  items-center gap-2 px-4 pt-2 pb-6 hover:bg-gray-100">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                         </svg>                                  
-                                        <button type="button" id="deleteNewsFeed" data-news-id="{{ $newsFeed->id }}" data-modal-target="deleteModal" data-modal-toggle="deleteModal" class="block text-md">Xóa bài viết</button>
+                                        <button type="button" data-news-id="{{ $newsFeed->id }}" data-modal-target="deleteModal" data-modal-toggle="deleteModal" class="deleteNewsFeed block text-md">Xóa tin đăng</button>
                                     </div>
                                 </div>
                             </div>                          
@@ -93,9 +94,10 @@
                                 </button>
                             </div>
                         </form> 
+                        
                         {{-- comments --}}
                         @foreach ($newsComments as $newsComment)
-                            <div class="flex flex-1 justify-between items-center" id="comment">
+                            <div class="flex flex-1 justify-between items-center mt-3" id="comment">
                                 <div class="flex gap-2">
                                     @if($newsComment->author->avatar)
                                         <img src="{{ $newsFeed->author->avatar }}" alt="Avatar" class="w-14 h-14 rounded-full">
@@ -115,17 +117,16 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                                     </svg>                              
                                 </button>
-                                @include('partial.modal-delete')
                             </div>
                         @endforeach   
+                    </div>
                     @empty
+                    <div class="bg-white my-10 py-12">
                         <img src="{{ asset('images/newsfeed.jpg') }}" class="w-[200px] h-[200px] mx-auto">
                         <h1 class="font-medium pt-5 text-[17px] text-center">Bảng tin</h1>
                         <p class="text-gray-600 text-center">Nơi trao đổi các vấn đề trong lớp học dành cho giáo viên học sinh</p>
+                    </div>
                     @endforelse
-
-
-                </div>
            </div>
         </div>
 
@@ -151,18 +152,26 @@
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
 <script>
     $(document).ready(function() {
-        // open menu newsfeed
-        $('#menu-news-toggle').click(function(e) {
-            e.stopPropagation();
-            $('#menu-news').toggleClass('hidden');
+        // Hiển thị menu khi click vào icon của file
+        $('.menu-news-toggle').click(function() {
+            var $menu = $(this).siblings('.menu-news');
+            $('.menu-news').not($menu).addClass('hidden'); 
+            $menu.toggleClass('hidden'); 
         });
 
-        // open form edit newsfeed
+        // Ẩn menu khi click ra ngoài
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('.menu-news-toggle').length && !$(event.target).closest('.menu-news').length) {
+                $('.menu-news').addClass('hidden');
+            }
+        });
+
+        // Mở form sửa bài viết
         $('#openNewsForm').on('click', function() {   
             $('#menu-news').toggleClass('hidden');
             let newsId = $(this).data('news-id');
             let newsContent = $(this).data('news-content');
-
+            $(this).closest('.menu-news').toggleClass('hidden');
             let formAction = "{{ route('class.newsfeed.update', ':newsId') }}".replace(':newsId', newsId);          
             $('#newsForm').attr('action', formAction);
 
@@ -172,28 +181,30 @@
             $('#overlay').removeClass('hidden');
         });
 
-        // close form edit newsfeed
+        // Đóng form sửa bài viết
         $('#closeNewsForm').on('click', function() {
             $('#newsFormModal').addClass('hidden');
             $('#overlay').addClass('hidden');
         });
 
-        //open form modal delete newsfeed
-        $('#deleteNewsFeed').click(function(){
-            $('#menu-news').toggleClass('hidden');
-            $('#deleteModal').toggleClass('hidden');
+        // Mở form xóa bài viết 
+        $(document).on('click', '.deleteNewsFeed', function(event){
+            event.stopPropagation();
+            $('.menu-news').addClass('hidden');
+            $('#deleteModal').removeClass('hidden');
             let newsId = $(this).data('news-id');      
-            let formAction = "{{ route('class.newsfeed.destroy', ':newsId') }}".replace(':newsId', newsId);          
+            let formAction = "{{ route('class.newsfeed.destroy', ':newsId') }}".replace(':newsId', newsId);             
             $('#deleteForm').attr('action', formAction);
         });
 
-        //close form modal delete newsfeed
+        // Đóng form xóa bài viết + comment
         $('[data-modal-toggle="deleteModal"]').click(function(){
             $('#deleteModal').addClass('hidden');
         });
 
-         //open form modal delete newscomment
-         $('#deleteNewsComment').click(function(){
+         // Mở form xóa comment 
+         $('#deleteNewsComment').click(function(event){
+            event.stopPropagation();
             $('#deleteModal').toggleClass('hidden');
             let newsCommentId = $(this).data('newscomment-id');     
             let formAction = "{{ route('class.newsfeed.comment.destroy', ':newsCommentId') }}".replace(':newsCommentId', newsCommentId);     
@@ -206,14 +217,5 @@
             const btnText = $(this).text() === 'Ẩn bình luận' ? 'Hiển thị bình luận' : 'Ẩn bình luận';
             $(this).text(btnText);
         });
-    });
-
-    // close menu newsfeed
-    $(document).click(function(e) {
-      const menuNews = $('#menu-news');
-      const menuNewsTogle = $('#menu-news-toggle');
-      if (!menuNews.is(e.target) && !menuNewsTogle.is(e.target) && menuNews.has(e.target).length === 0) {
-        menuNews.addClass('hidden');
-      }
     });
 </script>

@@ -1,12 +1,8 @@
-@extends('layouts.master')
+@extends('layouts.class-info')
 
 @section('title', 'Members')
 
 @section('content')
-    <div class="grid grid-cols-3">
-        <div>
-            
-        </div>
-    </div>
+    <p>{ !! $fileContent  !!}</p>
 @stop
 

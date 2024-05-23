@@ -3,7 +3,7 @@
 @section('title', 'Members')
 
 @section('content')
-    <div class="border border-1 px-5 py-5 bg-white font-medium fixed top-16 w-full overflow-y-auto z-10">
+    <div class="border border-1 px-5 py-5 bg-white font-medium fixed top-16 w-full overflow-y-auto">
         <h1>Bài kiểm tra</h1>
     </div>
     <div class="mt-20 mx-5">
@@ -43,7 +43,7 @@
         
             <div class="col-span-1 flex items-center gap-2 bg-blue-500 py-2 px-2 rounded-md text-white justify-center">         
                 <button id="openExamForm">Tạo bài kiểm tra</button>
-                @include('users.exams.dialog-create')
+                @include('users.exam-warehouse.dialog-create')
             </div>
         </div>
 

@@ -40,7 +40,7 @@
                 </a>
             </li>
             <li class="px-4 py-1">
-                <a class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl" href="">
+                <a href="{{ route('class.homework', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z" />
                     </svg>                                                               
@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li class="px-4 py-1">
-                <a class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl" href="">
+                <a href="{{ route('class.questions', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
                         <circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 1.65-1.35 3-3 3s-3-1.35-3-3"></path><line x1="12" y1="17" x2="12" y2="17"></line>
                     </svg>                                                                                    
@@ -64,7 +64,7 @@
                 </a>
             </li>
             <li class="px-4 py-1">
-                <a class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl" href="">
+                <a href="{{ route('class.exams', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
                       </svg>                                                               

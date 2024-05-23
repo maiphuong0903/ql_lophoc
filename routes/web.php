@@ -3,10 +3,13 @@
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\HomeWorkController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\NewsFeedController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TopicController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ExamController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,7 +60,7 @@ Route::prefix('class')->group(function () {
 
     // document
     Route::get('{id}/document', [DocumentController::class, 'index'])->name('class.document');
-    Route::get('{id}/document/show', [DocumentController::class, 'show'])->name('class.document.show');
+    Route::get('{id}/document/{documentId}/detail', [DocumentController::class, 'show'])->name('class.document.show');
     Route::post('{id}/document/store', [DocumentController::class, 'store'])->name('class.document.store');
     Route::delete('{id}/document/destroy', [DocumentController::class, 'destroy'])->name('class.document.destroy');
 
@@ -66,62 +69,24 @@ Route::prefix('class')->group(function () {
     Route::put('{id}/topic/update', [TopicController::class, 'update'])->name('class.topic.update');
     Route::delete('{id}/topic/destroy', [TopicController::class, 'destroy'])->name('class.topic.destroy');
 
+    // homework
+    Route::get('{id}/homework', [HomeWorkController::class, 'index'])->name('class.homework');
+    Route::get('{id}/homework/create', [HomeWorkController::class, 'create'])->name('class.homework.create');
+    Route::post('{id}/homework/store', [HomeWorkController::class, 'store'])->name('class.homework.store');
+    Route::get('{id}/homework/{homeworkId}/edit', [HomeWorkController::class, 'edit'])->name('class.homework.edit');
+    Route::put('{id}/homework/{homeworkId}/update', [HomeWorkController::class, 'update'])->name('class.homework.update');
+    Route::delete('{id}/homework/destroy', [HomeWorkController::class, 'destroy'])->name('class.homework.destroy');
+
+    //questions
+    Route::get('{id}/questions', [QuestionController::class, 'index'])->name('class.questions');
+    Route::post('{id}/questions/store', [QuestionController::class, 'store'])->name('class.questions.store');
+    Route::get('{id}/questions/{questionId}/edit', [QuestionController::class, 'edit'])->name('class.questions.edit');
+    Route::put('{id}/questions/update', [QuestionController::class, 'update'])->name('class.questions.update');
+    Route::delete('{id}/questions/destroy', [QuestionController::class, 'destroy'])->name('class.questions.destroy');
+
+    // exam
+    Route::get('{id}/exams', [ExamController::class, 'index'])->name('class.exams');
+    Route::post('{id}/exams/store', [ExamController::class, 'store'])->name('class.exams.store');
 });
 
-
-Route::get('member', function () {
-    return view('users.members.index');
-});
-
-Route::get('class-roles', function () {
-    return view('users.class-roles.index');
-});
-
-Route::get('file', function () {
-    return view('users.files.index');
-});
-
-Route::get('homework', function () {
-    return view('users.homework.index');
-});
-
-Route::get('homework/create', function () {
-    return view('users.homework.create');
-});
-
-Route::get('homework/show', function () {
-    return view('users.homework.show');
-});
-
-Route::get('homework/detail', function () {
-    return view('users.homework.detail');
-});
-
-Route::get('score', function () {
-    return view('users.scores.index');
-});
-
-Route::get('questions', function () {
-    return view('users.questions.index');
-});
-
-Route::get('exam-warehouse', function () {
-    return view('users.exam-warehouse.index');
-});
-
-Route::get('exam/show', function () {
-    return view('users.exams.show');
-});
-
-Route::get('exam', function () {
-    return view('users.exams.index');
-});
-
-Route::get('exam/detail', function () {
-    return view('users.exams.detail');
-});
-
-Route::get('exam/create', function () {
-    return view('users.exams.create');
-});
 

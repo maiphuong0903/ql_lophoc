@@ -11,8 +11,8 @@
             </div>
 
            <div class="flex gap-2 mb-10">
-                <button class="w-full bg-blue-500 text-white rounded-md px-2 py-6 mt-5 hover:bg-blue-700">Chọn bộ câu hỏi</button>
-                <button class="w-full bg-blue-500 text-white rounded-md px-2 py-6 mt-5 hover:bg-blue-700">Tạo ngẫu nhiên</button>
+                <a href="" class="w-full bg-blue-500 text-white rounded-md px-2 py-6 mt-5 hover:bg-blue-700">Chọn từ kho bài kiểm tra</a>
+                <a href="" class="w-full bg-blue-500 text-white rounded-md px-2 py-6 mt-5 hover:bg-blue-700">Tạo ngẫu nhiên bài kiểm tra</a>
            </div>
         </div>
     </div>

@@ -2,26 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClassRoom;
 use App\Models\Document;
-use App\Models\Topic;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class DocumentController extends Controller
 {
-    public function index($id)
+    public function index(Request $request)
     {
-        $classRoom = ClassRoom::find($id);
-        $topics = Topic::where('class_room_id', $id)->get();
-        $documents = Document::all();
-        return view('users.files.index', compact('classRoom', 'topics', 'documents'));
+        $documents = Document::filter($request->all())->where('created_by', auth()->user()->id)->get();
+        return view('users.files.index', compact('documents'));
     }
 
-    public function show($id){
-        $document = Document::find($id);
-        return view('users.files.show', compact('document'));
+    public function show($id, $documentId){  
+        $document = Document::find($documentId);     
+        $filePath = public_path($document->document_url);
+        dd($filePath);
+        if(!file_exists($filePath)) {
+            return redirect()->back()->with('error', 'Tệp tài liệu không tồn tại');
+        }
+    
+        $fileContent = file_get_contents($filePath);
+        dd($fileContent);
+        return view('users.files.show', compact('document', 'fileContent'));
     }
     public function store(Request $request)
     {

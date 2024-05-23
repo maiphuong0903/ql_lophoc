@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Question extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
     protected $fillable = [
         'content',
@@ -35,5 +36,10 @@ class Question extends Model
             'question_id', 
             'exam_id',
         );
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(AnswerQuestion::class);
     }
 }
