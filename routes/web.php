@@ -33,9 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::prefix('class')->group(function () { 
+Route::prefix('class')->group(function () {
     // class
     Route::get('/', [ClassRoomController::class, 'index'])->name('class');
     Route::get('create', [ClassRoomController::class, 'create'])->name('class.create');
@@ -56,7 +56,7 @@ Route::prefix('class')->group(function () {
 
     // member
     Route::get('{id}/member', [MemberController::class, 'index'])->name('class.member');
-    Route::post('member/addStudent', [MemberController::class, 'addStudent'])->name('class.member.addStudent');
+    Route::post('{id}/member/addStudent', [MemberController::class, 'addStudent'])->name('class.member.addStudent');
 
     // document
     Route::get('{id}/document', [DocumentController::class, 'index'])->name('class.document');
@@ -88,5 +88,3 @@ Route::prefix('class')->group(function () {
     Route::get('{id}/exams', [ExamController::class, 'index'])->name('class.exams');
     Route::post('{id}/exams/store', [ExamController::class, 'store'])->name('class.exams.store');
 });
-
-

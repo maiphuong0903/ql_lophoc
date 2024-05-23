@@ -24,31 +24,29 @@ class ClassRoom extends Model
     {
         return $this->provideFilter(\App\ModelFilters\ClassRoomFilter::class);
     }
-    
-    public function topics() : HasMany
+
+    public function topics(): HasMany
     {
         return $this->hasMany(Topic::class);
     }
 
-    public function newsFeeds() : HasMany
+    public function newsFeeds(): HasMany
     {
         return $this->hasMany(NewsFeed::class);
     }
 
-    public function author() : BelongsTo
+    public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-    
-    public function userClassRoom() : BelongsToMany
+
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(
-            User::class, 
-            'user_class_room', 
-            'user_id', 
+            User::class,
+            'user_class_rooms',
+            'user_id',
             'class_room_id',
         );
     }
-
 }
-

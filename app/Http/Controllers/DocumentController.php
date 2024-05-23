@@ -15,43 +15,42 @@ class DocumentController extends Controller
         return view('users.files.index', compact('documents'));
     }
 
-    public function show($id, $documentId){  
-        $document = Document::find($documentId);     
-        $filePath = public_path($document->document_url);
-        dd($filePath);
-        if(!file_exists($filePath)) {
-            return redirect()->back()->with('error', 'Tệp tài liệu không tồn tại');
-        }
-    
-        $fileContent = file_get_contents($filePath);
-        dd($fileContent);
-        return view('users.files.show', compact('document', 'fileContent'));
+    public function show($id, $documentId)
+    {
+        $document = Document::find($documentId);
+        $filePath = config('app.url') . '/storage/' . $document->document_url;
+
+        return view('users.files.show', compact('filePath'));
     }
     public function store(Request $request)
     {
-        try{
+        try {
             $document = $request->all();
             $document['created_by'] = auth()->user()->id;
+
+            if ($request->document_url) {
+                $document['document_url'] = $request->file('document_url')->store('pdfs', 'public');
+            }
 
             Document::create($document);
 
             return redirect()->back()->with('success', 'Tạo tài liệu lên thành công');
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::info("ERROR: " . $e->getMessage());
             return redirect()->back()->with('error', 'Tải tài liệu lên thất bại');
         }
-        
     }
 
-    public function destroy($id){
-        try{
+    public function destroy($id)
+    {
+        try {
             $document = Document::find($id);
             if (!$document) {
                 return redirect()->back()->with('error', 'Không tìm thấy tài liệu');
             }
             $document->delete();
             return redirect()->back()->with('success', 'Xóa tài liệu thành công');
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::info("Error: " . $e->getMessage());
             return redirect()->back()->with('error', 'Xóa tài liệu thất bại');
         }

@@ -53,68 +53,68 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function created_by_class_room() : HasMany
+    public function created_by_class_room(): HasMany
     {
         return $this->hasMany(ClassRoom::class);
     }
 
-    public function classRooms() : BelongsToMany
+    public function classRooms(): BelongsToMany
     {
         return $this->belongsToMany(
-            ClassRoom::class, 
-            'user_class_room', 
-            'user_id', 
+            ClassRoom::class,
+            'user_class_rooms',
+            'user_id',
             'class_room_id',
         );
     }
 
-    public function created_by_comment() : HasMany
+    public function created_by_comment(): HasMany
     {
         return $this->hasMany(NewsFeed::class, 'id');
     }
 
-    public function newsFeedsComments() : BelongsToMany
+    public function newsFeedsComments(): BelongsToMany
     {
         return $this->belongsToMany(
-            NewsFeed::class, 
-            'comments', 
-            'user_id', 
+            NewsFeed::class,
+            'comments',
+            'user_id',
             'news_feed_id',
             'content',
         );
     }
-    
-    public function created_by_topic() : HasMany
+
+    public function created_by_topic(): HasMany
     {
         return $this->hasMany(Topic::class);
     }
 
-    public function created_by_notification() : HasMany
+    public function created_by_notification(): HasMany
     {
         return $this->hasMany(Notification::class);
     }
 
-    public function notifications() : BelongsToMany
+    public function notifications(): BelongsToMany
     {
         return $this->belongsToMany(
-            Notification::class, 
-            'user_notification', 
-            'user_id', 
+            Notification::class,
+            'user_notification',
+            'user_id',
             'notification_id',
         );
     }
 
-    public function created_by_homework() : HasMany
+    public function created_by_homework(): HasMany
     {
         return $this->hasMany(HomeWork::class);
     }
 
-    public function answerHomeworks() : BelongsToMany
+    public function answerHomeworks(): BelongsToMany
     {
         return $this->belongsToMany(
-            HomeWork::class, 
-            'users_answers_home_works', 
-            'user_id', 
+            HomeWork::class,
+            'users_answers_home_works',
+            'user_id',
             'homework_id',
             'answer',
             'score',
@@ -122,29 +122,29 @@ class User extends Authenticatable
         );
     }
 
-    public function created_by_question() : HasMany
+    public function created_by_question(): HasMany
     {
         return $this->hasMany(Question::class);
     }
 
-    public function created_by_exam() : HasMany
+    public function created_by_exam(): HasMany
     {
         return $this->hasMany(Exam::class);
     }
 
-    public function answerExams() : BelongsToMany
+    public function answerExams(): BelongsToMany
     {
         return $this->belongsToMany(
-            Exam::class, 
-            'users_answers_exams', 
-            'user_id', 
+            Exam::class,
+            'users_answers_exams',
+            'user_id',
             'exam_id',
             'answer',
             'score'
         );
     }
-    
-    public function created_by_document() : HasMany
+
+    public function created_by_document(): HasMany
     {
         return $this->hasMany(Document::class);
     }
