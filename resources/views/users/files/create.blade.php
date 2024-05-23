@@ -10,24 +10,24 @@
                 </button>
             </div>
 
-            <form action="{{ route('class.document.store', $classRoom->id) }}" method="POST">
+            <form action="{{ route('class.document.store', $classRoom->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <label for="">Tiêu đề: </label>
                 <input type="text" name="title" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3" placeholder="Tiêu đề...">
-                
+
                 <label for="">Chủ đề: </label>
                 <select name="topic_id" id="" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3">
                     <option value="">Không có chủ đề</option>
                     @foreach ($topics as $topic)
-                        <option value="{{ $topic->id }}">{{ $topic->name }}</option>              
-                    @endforeach             
+                    <option value="{{ $topic->id }}">{{ $topic->name }}</option>
+                    @endforeach
                 </select>
-                
+
                 <label for="">Mô tả: </label>
                 <textarea name="description" id="" cols="10" rows="3" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3"></textarea>
                 <label for="">Đính kèm file: </label>
                 <div class="flex justify-between pb-2">
-                    <span class="file-name"></span> 
+                    <span class="file-name"></span>
                     <button id="removeFile" class="text-gray-500 hover:text-red-500 hidden show_file">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -40,11 +40,11 @@
                             <div class="border px-3 py-3 bg-gray-200 rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 cursor-pointer">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-                                </svg> 
-                            </div>   
+                                </svg>
+                            </div>
                             <p class="pointer-none text-[15px] mt-1.5"><span class="text-md">
-                                Tải lên
-                             </p>
+                                    Tải lên
+                            </p>
                         </div>
                         <input type="file" id="fileInput" class="hidden" name="document_url">
                     </label>
