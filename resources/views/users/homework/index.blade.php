@@ -4,10 +4,10 @@
 
 @section('content')
     @include('partial.toast-message')
-    <div class="border border-1 px-5 py-5 bg-white font-medium fixed top-16 w-full overflow-y-auto z-10">
+    <div class="border border-1 px-5 py-5 bg-white font-medium">
         <h1>Bài tập</h1>
     </div>
-    <div class="mt-16 grid grid-cols-5">   
+    <div class="grid grid-cols-5">   
        @include('users.topics.index')
         <div class="col-span-4">
             {{-- search --}}
@@ -63,7 +63,7 @@
                 <div class="hover:bg-gray-100 py-3 px-5">
                     <h1 class="text-gray-950 font-medium">{{ $homework->title }}</h1>
                     <div class="flex flex-1 justify-between items-center px-2cursor-pointer ">
-                        <h1 class="text-gray-950 text-[15px]">{{ $homework->homework_file }}</h1>          
+                        <a href="{{ route('class.homework.show-file-homework', ['id' => $classRoom->id, 'homeworkId' => $homework->id]) }}" class="text-gray-950 text-[15px] cursor-pointer hover:underline hover:text-blue-500">{{ $homework->homework_file }}</a>          
                         <div class="flex gap-5 items-center">
                             <p class="text-[14px] font-medium">0/1 Đã làm</p>
                             <div class="relative">
@@ -78,13 +78,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                         </svg>                                                                 
-                                        <a href="#" class="block text-md">Xem thông tin</a>
-                                    </div>
-                                    <div class="flex flex-1 items-center gap-2 px-4 py-2 hover:bg-gray-100">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                                        </svg>                                                              
-                                        <a href="#" class="block text-md">Tải về</a>
+                                        <a href="{{ route('class.homework.info', ['id' => $classRoom->id, 'homeworkId' => $homework->id]) }}" class="block text-md">Xem thông tin</a>
                                     </div>
                                     <div class="flex flex-1 items-center gap-2 px-4 py-2 hover:bg-gray-100">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

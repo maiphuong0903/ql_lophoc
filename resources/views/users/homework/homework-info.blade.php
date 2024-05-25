@@ -43,7 +43,7 @@
                         <th scope="col" class="px-6 py-5">Họ và tên</th>
                         <th scope="col" class="px-6 py-5">Điểm</th>
                         <th scope="col" class="px-6 py-5">Ngày nộp</th>
-                        <th scope="col" class="px-6 py-5">Tổng số tệp</th>
+                        <th scope="col" class="px-6 py-5">Tình trạng</th>
                         <th scope="col" class="px-6 py-5 w-[150px]">Thao tác</th>
                     </tr>
                 </thead>
@@ -53,39 +53,15 @@
                         <td class="px-6 py-4">Mai Phượng</td>
                         <td class="px-6 py-4">Chờ chấm</td>
                         <td class="px-6 py-4">11 tháng 5 lúc 19:51</td>
-                        <td class="px-6 py-4">1/1</td>
+                        <td class="px-6 py-4">Đã chấm</td>
                         <td class="px-6 py-4"><a href="" class="border px-3 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-700">Chấm bài</a></td>
                     </tr>
                 </tbody>
             </table>
-
-            {{-- Đối với bài tập dạng trắc nghiêm -> đưa vào bài kiểm tra--}}
-            {{-- <table class="w-full text-sm text-left border-x">
-                <thead class="text-xs uppercase bg-gray-100">
-                    <tr>
-                        <th scope="col" class="px-6 py-5">#</th>
-                        <th scope="col" class="px-6 py-5">Họ và tên</th>
-                        <th scope="col" class="px-6 py-5">Đã làm</th>
-                        <th scope="col" class="px-6 py-5">Điểm</th>
-                        <th scope="col" class="px-6 py-5">Ngày nộp</th>
-                        <th scope="col" class="px-6 py-5 w-[150px]">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="odd:bg-white even:bg-gray-50 border-b">
-                        <td class="px-6 py-4">1</td>
-                        <td class="px-6 py-4">Mai Phượng</td>
-                        <td class="px-6 py-4">1/1</td>
-                        <td class="px-6 py-4">10.00</td>
-                        <td class="px-6 py-4">11 tháng 5 lúc 19:45</td>
-                        <td class="px-6 py-4"><a href="" class="border px-4 py-1.5 rounded-md hover:bg-blue-500 hover:text-white">Chi tiết</a></td>
-                    </tr>
-                </tbody>
-            </table> --}}
-
-            <div class="mt-20">
+            
+            {{-- <div class="mt-20">
                 @include('pagination.paginate')
-            </div>
+            </div> --}}
         </div>
     </div>
 @stop

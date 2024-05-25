@@ -13,9 +13,9 @@ class NewsFeedController extends Controller
 {
     public function index($id)
     {
-        $newsFeeds = NewsFeed::with('author')->where('class_room_id', $id)->get();
-        $newsComments = NewsFeed::with('author')->join('comments', 'comments.news_feed_id', '=', 'news_feeds.id')->get(); 
-        return view('users.news.index', compact('newsFeeds', 'newsComments'));
+        $newsFeeds = NewsFeed::with(['author', 'comments'])->where('class_room_id', $id)->withCount('comments')->get();
+
+        return view('users.news.index', compact('newsFeeds'));
     }
 
     public function store(Request $request){

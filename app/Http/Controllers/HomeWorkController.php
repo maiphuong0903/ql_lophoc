@@ -6,6 +6,7 @@ use App\Models\HomeWork;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class HomeWorkController extends Controller
 {
@@ -21,16 +22,14 @@ class HomeWorkController extends Controller
 
     public function store(Request $request){
         try{
-                $homework = $request->all();
-
-            // if ($request->hasFile('homework_file')) {
-            //     $file = $request->file('homework_file');
-            //     $path = $file->store('public/images');
-            //     $url = Storage::url($path);
-            //     $homework['homework_file'] = $url;
-            // }
-        
+            
+            $homework = $request->all();   
             $homework['created_by'] = auth()->user()->id; 
+
+            if ($request->homework_file) {
+                $homework['homework_file'] = $request->file('homework_file')->store('pdfs', 'public');
+            }
+            
             HomeWork::create($homework);
             
             return redirect()->route('class.homework', $request->class_room_id )->with('success', 'Tạo bài tập lên thành công');
@@ -38,7 +37,15 @@ class HomeWorkController extends Controller
             Log::info("ERROR: " . $e->getMessage());
             return redirect()->back()->with('error', 'Tạo bài tập lên thất bại');
         }
-    }           
+    }   
+
+    public function show($id, $homeworkId)
+    {
+        $homework = HomeWork::find($homeworkId);
+        $filePath = config('app.url') . '/storage/' . $homework->homework_file;
+
+        return view('users.homework.show-file-homework', compact('filePath'));
+    }
 
     public function edit($classId, $homeworkId){
         $homework = HomeWork::find($homeworkId);
@@ -54,6 +61,15 @@ class HomeWorkController extends Controller
             }
             $homeworkData = $request->all();
             $homeworkData['created_by'] = auth()->user()->id;
+
+            if ($request->hasFile('homework_file') && $request->file('homework_file')->isValid()) {
+                if ($homework->homework_file) {
+                    Storage::disk('public')->delete($homework->homework_file);
+                }
+                
+                $homeworkData['homework_file'] = $request->file('homework_file')->store('pdfs', 'public');
+            }
+            
             $homework->update($homeworkData);
 
             return redirect()->route('class.homework', $request->class_room_id )->with('success', 'Cập nhật bài tập lên thành công');
@@ -75,5 +91,10 @@ class HomeWorkController extends Controller
             Log::info("Error: " . $e->getMessage());
             return redirect()->back()->with('error', 'Xóa bài tập thất bại');
         }
+    }
+
+    public function info($classId, $homeworkId){
+        
+        return view('users.homework.homework-info');
     }
 }

@@ -63,8 +63,8 @@ class User extends Authenticatable
         return $this->belongsToMany(
             ClassRoom::class,
             'user_class_rooms',
-            'user_id',
             'class_room_id',
+            'user_id',
         );
     }
 

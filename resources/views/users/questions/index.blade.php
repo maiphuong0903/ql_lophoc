@@ -4,10 +4,10 @@
 
 @section('content')
     @include('partial.toast-message')
-    <div class="border border-1 px-5 py-5 bg-white font-medium fixed top-16 w-full overflow-y-auto">
+    <div class="border border-1 px-5 py-5 bg-white font-medium">
         <h1>Bài tập</h1>
     </div>
-    <div class="mt-16 grid grid-cols-5">
+    <div class="grid grid-cols-5">
         @include('users.topics.index')
         <div class="col-span-4">
 
@@ -72,7 +72,7 @@
             </div>
 
             {{-- checkbox --}}
-            <form action="{{ route('class.exams.store', $classRoom->id) }}" method="POST">
+            {{-- <form action="{{ route('class.exams.store', $classRoom->id) }}" method="POST">
                 @csrf
                 <div class="bg-gray-100 py-3 px-5 mb-3 flex gap-3 items-center justify-between">
                     <div class="flex gap-3 items-center">
@@ -82,15 +82,15 @@
                     <button type="submit"
                         class="text-white bg-blue-500 hover:bg-blue-600 font-medium rounded-md text-md px-7 py-2 text-center">Tạo
                         bài kiểm tra</button>
-                </div>
+                </div> --}}
 
-               
+
                 {{-- danh sách câu hỏi --}}
-                @forelse ($questions as $question)
+                @forelse ($questions as $key => $question)
                     <div class="hover:bg-gray-100 py-3 px-5">
                         <div class="flex flex-1 justify-between items-center px-2cursor-pointer ">
                             <div class="flex gap-2 items-center">
-                                <input type="checkbox" name="selected_questions[]" value="{{ $question->id }}">
+                                <p>Câu {{ $key + 1 }}: </p>
                                 <h1 class="text-gray-950 text-[15px] font-medium">{{ $question->content }}</h1>
                             </div>
                             <div class="flex gap-5 items-center">
@@ -110,12 +110,16 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                             </svg>
-                                            
+
                                             <button type="button" data-question-id="{{ $question->id }}"
                                                 data-question-content="{{ $question->content }}"
                                                 data-question-topic-id="{{ $question->topic_id }}"
-                                                data-is_correct="{{ $question->is_correct }}"
-                                                class="openEditQuestionForm block text-md">Chỉnh sửa câu hỏi</button>
+                                                @foreach ($question->answers as $index => $answer)
+                                                    data-answer-{{ $index + 1 }}="{{ $answer->answer_content }}"
+                                                    data-is-correct-{{ $index + 1 }}="{{ $answer->is_correct }}" @endforeach
+                                                class="openEditQuestionForm block text-md">
+                                                Thông tin câu hỏi
+                                            </button>
                                         </div>
                                         <div class="flex flex-1 items-center gap-2 px-4 py-2 hover:bg-gray-100">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -132,7 +136,6 @@
                             </div>
                         </div>
                     </div>
-            </form>
             @include('users.questions.edit')
         @empty
             <p class="text-center mt-5">Không có câu hỏi nào</p>
@@ -194,15 +197,31 @@
             let questionId = $(this).data('question-id');
             let questionContent = $(this).data('question-content');
             let questionTopic = $(this).data('question-topic-id');
-            let isCorrect = $(this).data('is_correct');
-            console.log(questionTopic);
-            let formAction = "{{ route('class.questions.update', ':questionId') }}".replace(
-                ':questionId', questionId);
+
+            let answers = [];
+            let correctAnswers = [];
+            
+            for (let i = 1; i <= 4; i++) {
+                let answer = $(this).data('answer-' + i);
+                let isCorrect = $(this).data('is-correct-' + i);
+                if (answer !== undefined) {
+                    answers.push(answer);
+                    correctAnswers.push(isCorrect);
+                }
+            }
+
+            let formAction = "{{ route('class.questions.update', ':questionId') }}".replace(':questionId', questionId);
             $('#questionForm').attr('action', formAction);
 
             $('#questionContent').val(questionContent);
-            $('#questionTopic').val(questionTopic);
-            $('input[name="is_correct"][value="' + isCorrect + '"]').prop('checked', true);
+            $('#questionTopic').val(questionTopic); 
+           
+            answers.forEach((answer, index) => {                       
+                $(`input[name='answers_content[]']`).eq(index).val(answer);
+                if (correctAnswers[index]) {
+                    $(`input[name='is_correct'][value='${index + 1}']`).prop('checked', true);
+                }
+            });
         });
 
         // Đóng form sửa câu hỏi

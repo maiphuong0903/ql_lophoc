@@ -11,11 +11,12 @@
             </div>
             <p class="font-light text-[14px] py-5 text-left">Giáo viên đồng hành sẽ có tất cả quyền của giáo viên sở hữu lớp học ngoại trừ cài đặt lớp học, chỉnh sửa vai trò lớp học và xóa lớp học.</p>
 
-            <form action="" method="post">
-                <input type="text" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-5" placeholder="Nhập email đăng nhập của giáo viên...">
+            <form action="{{ route('class.class-role.addTeacher', $classRoom->id) }}" method="post">
+                @csrf
+                <input type="text" name="email" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-5" placeholder="Nhập email đăng nhập của giáo viên...">
                 <div class="text-left">           
                     <label for="" class="text-gray-500">Nội dung vai trò</label>
-                    <input type="text" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mt-2" placeholder="Ví dụ: Dạy toán...">
+                    <input type="text" name="content_role" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mt-2" placeholder="Ví dụ: Dạy toán...">
                 </div>
                 <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Mời</button>
             </form>

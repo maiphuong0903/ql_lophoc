@@ -13,6 +13,7 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $questions = Question::with('answers')->filter($request->all())->where('created_by', auth()->user()->id)->get();
+
         return view('users.questions.index', compact('questions'));
     }
 
@@ -46,15 +47,31 @@ class QuestionController extends Controller
             if (!$question) {
                 return redirect()->back()->with('error', 'Không tìm thể câu hỏi');
             }
-             $questionData['created_by'] = auth()->user()->id;
-
-            $question->update($request->all());
+            
+            $question->update([
+                'content' => $request['content'],
+                'topic_id' => $request['topic_id'],
+                'created_by' => auth()->user()->id,
+            ]);
+    
+            // Tạo các đáp án
+            foreach ($request['answers_content'] as $answerData) {
+                $answer = AnswerQuestion::where('question_id', $id)->where('answer_content', $answerData)->first();
+                if ($answer) {
+                    $answer->update([
+                        'answer_content' => $answerData,
+                        'is_correct' => ($answerData == $request['is_correct']),
+                    ]);
+                }
+            }
+            
             return redirect()->back()->with('success', 'Cập nhật câu hỏi lại');
         }catch(Exception $e){
             Log::info("Error: " . $e->getMessage());
             return redirect()->back()->with('error', 'Cập nhật câu hỏi thất bại');
         }
     }
+     
 
     public function destroy($id){
         try{

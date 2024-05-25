@@ -25,7 +25,6 @@ class ClassRoomController extends Controller
     public function store(ClassRoomRequest $request)
     {
         try{
-            $classRoom = $request->all();
             $code = Str::random(6); 
           
             while (ClassRoom::where('code', strtoupper($code))->exists()) {
@@ -33,11 +32,15 @@ class ClassRoomController extends Controller
             }
            
             $image_url = $this->uploadImage($request['image']);  
-            $classRoom['code'] = strtoupper($code);
-            $classRoom['image'] = $image_url;
-            $classRoom['created_by'] = auth()->user()->id;
-            
-            ClassRoom::create($classRoom);
+            $classRoom = ClassRoom::create([
+                'code' => strtoupper($code),
+                'name' => $request['name'],
+                'description' => $request['description'],
+                'image' => $image_url,
+                'created_by' => auth()->user()->id,
+            ]);
+
+            $classRoom->users()->attach(auth()->user()->id, ['content_role' => 'Chủ sở hữu']);
 
             return redirect()->route('class')->with('success', 'Tạo lớp học thành công');
         }catch(Exception $e){

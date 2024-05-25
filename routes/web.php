@@ -1,15 +1,16 @@
 <?php
 
+use App\Http\Controllers\ClassRoleController;
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeWorkController;
-use App\Http\Controllers\MemberController;
 use App\Http\Controllers\NewsFeedController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,9 +55,10 @@ Route::prefix('class')->group(function () {
     Route::post('{id}/newsfeed/comment/store', [CommentController::class, 'store'])->name('class.newsfeed.comment.store');
     Route::delete('{id}/newsfeed/comment/destroy', [CommentController::class, 'destroy'])->name('class.newsfeed.comment.destroy');
 
-    // member
-    Route::get('{id}/member', [MemberController::class, 'index'])->name('class.member');
-    Route::post('{id}/member/addStudent', [MemberController::class, 'addStudent'])->name('class.member.addStudent');
+    // student
+    Route::get('{id}/student', [StudentController::class, 'index'])->name('class.student');
+    Route::post('{id}/student/addStudent', [StudentController::class, 'addStudent'])->name('class.student.addStudent');
+    Route::post('{id}/student/destroy', [StudentController::class, 'deleteStudent'])->name('class.student.deleteStudent');
 
     // document
     Route::get('{id}/document', [DocumentController::class, 'index'])->name('class.document');
@@ -76,6 +78,8 @@ Route::prefix('class')->group(function () {
     Route::get('{id}/homework/{homeworkId}/edit', [HomeWorkController::class, 'edit'])->name('class.homework.edit');
     Route::put('{id}/homework/{homeworkId}/update', [HomeWorkController::class, 'update'])->name('class.homework.update');
     Route::delete('{id}/homework/destroy', [HomeWorkController::class, 'destroy'])->name('class.homework.destroy');
+    Route::get('{id}/homework/{homeworkId}/show', [HomeWorkController::class, 'show'])->name('class.homework.show-file-homework');
+    Route::get('{id}/homework/{homeworkId}/info', [HomeWorkController::class, 'info'])->name('class.homework.info');
 
     //questions
     Route::get('{id}/questions', [QuestionController::class, 'index'])->name('class.questions');
@@ -87,4 +91,9 @@ Route::prefix('class')->group(function () {
     // exam
     Route::get('{id}/exams', [ExamController::class, 'index'])->name('class.exams');
     Route::post('{id}/exams/store', [ExamController::class, 'store'])->name('class.exams.store');
+
+    // class role
+    Route::get('{id}/class-role', [ClassRoleController::class, 'index'])->name('class.class-role');
+    Route::post('{id}/class-role/addTeacher', [ClassRoleController::class, 'addTeacher'])->name('class.class-role.addTeacher');
+
 });

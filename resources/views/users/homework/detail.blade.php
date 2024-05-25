@@ -27,7 +27,7 @@
 
     <div class="grid grid-cols-3">
         <div class="col-span-2 px-10 py-6 mt-16">
-            <h1 class="text-3xl font-bold">Nội dung file</h1>
+            <iframe src="{{ $filePath }}" width="100%" height="700">
         </div>
         <div class="border-l w-1/4 h-full p-6 fixed top-16 right-0 overflow-y-scroll">
             <button class="text-white bg-blue-600 font-medium rounded-lg text-md px-5 py-2 text-center w-full">Kết quả</button>

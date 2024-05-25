@@ -6,10 +6,10 @@
     @include('partial.toast-message')
     <div class="grid grid-cols-4 bg-gray-100 h-full z-10">
         <div class="col-span-3">
-           <div class="border border-1 px-5 py-5 bg-white font-medium fixed top-16 w-full overflow-y-auto">
+           <div class="border border-1 px-5 py-5 bg-white font-medium sticky top-16 w-full overflow-y-auto">
                 <h1>Bảng tin</h1>
            </div>
-           <div class="my-24 mx-32">
+           <div class="my-10 mx-32">
                 <div class="bg-white rounded-lg shadow-sm py-5">
                     <form action="{{ route('class.newsfeed.store') }}" method="POST">
                         @csrf
@@ -24,14 +24,14 @@
                         </div>     
                     </form>       
                 </div>
-                @forelse ($newsFeeds as $newsFeed) 
-                    @include('partial.modal-delete')                  
-                    <div class="bg-white rounded-lg shadow-sm py-5 px-5 mt-5">
+                @forelse ($newsFeeds as $newsFeed)       
+                    @include('partial.modal-delete')     
+                    <div class="bg-white rounded-lg shadow-sm py-5 px-5 mt-5 news-feed-container">
                         {{-- trường hợp có tin mới --}}
                         <div class="flex flex-1 justify-between items-center">
                             <div class="flex flex-1 gap-3">
                                 @if($newsFeed->author->avatar)
-                                    <img src="{{ $newsFeed->author->avatar }}" alt="Avatar" class="w-14 h-14 rounded-full">
+                                    <img src="{{ $newsFeed->user->avatar }}" alt="Avatar" class="w-14 h-14 rounded-full">
                                 @else
                                    <img src="{{ asset('images/avatar.jpg') }}" alt="" class="object-cover w-12 h-12 rounded-full">
                                 @endif                              
@@ -71,9 +71,9 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
                                 </svg> 
-                                <p>0 bình luận</p>
+                                <p>{{ $newsFeed->comments_count}} bình luận</p>
                             </div> 
-                            <button type="button" id="toggleComments" class="commentAction">Ẩn bình luận</button>                      
+                            <button type="button" class="toggleComments commentAction">Hiển thị bình luận</button>                      
                         </div>
 
                         {{-- form comment --}}
@@ -96,17 +96,17 @@
                         </form> 
                         
                         {{-- comments --}}
-                        @foreach ($newsComments as $newsComment)
-                            <div class="flex flex-1 justify-between items-center mt-3" id="comment">
+                        @foreach ($newsFeed->comments as $newsComment)
+                            <div class="flex flex-1 justify-between items-center mt-3 hidden comment-item">
                                 <div class="flex gap-2">
-                                    @if($newsComment->author->avatar)
-                                        <img src="{{ $newsFeed->author->avatar }}" alt="Avatar" class="w-14 h-14 rounded-full">
+                                    @if($newsComment->user->avatar)
+                                        <img src="{{ $newsFeed->user->avatar }}" alt="Avatar" class="w-14 h-14 rounded-full">
                                     @else
                                         <img src="{{ asset('images/avatar.jpg') }}" alt="" class="object-cover w-12 h-12 rounded-full">
                                     @endif 
                                     <div>
                                         <div class="flex flex-1 gap-2">                         
-                                            <h1>{{ $newsComment->author->name }}</h1>
+                                            <h1>{{ $newsComment->user->name }}</h1>
                                             <p class="text-gray-500 text-sm">{{ $newsComment->created_at->locale('vi')->diffForHumans() }}</p>
                                         </div>
                                         <p class="text-left pt-2">{{ $newsComment->content }}</p>
@@ -116,21 +116,21 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                                     </svg>                              
-                                </button>
+                                </button>     
                             </div>
                         @endforeach   
                     </div>
-                    @empty
+                @empty
                     <div class="bg-white my-10 py-12">
                         <img src="{{ asset('images/newsfeed.jpg') }}" class="w-[200px] h-[200px] mx-auto">
                         <h1 class="font-medium pt-5 text-[17px] text-center">Bảng tin</h1>
                         <p class="text-gray-600 text-center">Nơi trao đổi các vấn đề trong lớp học dành cho giáo viên học sinh</p>
                     </div>
-                    @endforelse
+                @endforelse
            </div>
         </div>
 
-        <div class="w-80 border border-1 px-5 py-5 bg-white fixed right-0 h-full overflow-y-auto">
+        <div class="w-80 border border-1 px-5 py-5 bg-white">
             <h1 class="font-medium mb-5">Thông báo</h1>
             {{-- <img src="{{ asset('images/noti.png') }}" class="w-[170px] h-[130px] mx-auto mt-36">
             <h1 class="font-medium pt-5 text-[17px] text-center mt-14">Lớp học chưa có thông báo nào</h1>
@@ -207,13 +207,16 @@
             event.stopPropagation();
             $('#deleteModal').toggleClass('hidden');
             let newsCommentId = $(this).data('newscomment-id');     
+           
             let formAction = "{{ route('class.newsfeed.comment.destroy', ':newsCommentId') }}".replace(':newsCommentId', newsCommentId);     
             $('#deleteForm').attr('action', formAction);
         });
 
         // ẩn bình luận
-        $('#toggleComments').click(function(){
-            $('#comment').toggle();
+        $('.toggleComments').click(function(){
+            let $newsFeedContainer = $(this).closest('.news-feed-container');
+            let $commentContainer = $newsFeedContainer.find('.comment-item');
+            $commentContainer.toggleClass('hidden');
             const btnText = $(this).text() === 'Ẩn bình luận' ? 'Hiển thị bình luận' : 'Ẩn bình luận';
             $(this).text(btnText);
         });

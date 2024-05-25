@@ -3,7 +3,7 @@
 @section('title', 'Members')
 
 @section('content')
-    <div class="border border-1 px-5 py-5 bg-white font-medium fixed top-16 w-full overflow-y-auto">
+    <div class="border border-1 px-5 py-5 bg-white font-medium">
         <h1>Bài kiểm tra</h1>
     </div>
     <div class="mt-20 mx-5">

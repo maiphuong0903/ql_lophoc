@@ -18,4 +18,15 @@ class UserFilter extends ModelFilter
     {
         return $this->where('email', $email);
     }
+
+    public function search($value)
+    {
+        if (preg_match('/^[%_]+$/', $value)) {
+            return $this->whereKey(-1); 
+        }
+
+        return $this->when(function ($query) use ($value) {
+            $this->where('name', 'LIKE', "%$value%");
+        });
+    }
 }

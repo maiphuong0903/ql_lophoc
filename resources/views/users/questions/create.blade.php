@@ -17,18 +17,18 @@
 
                 <p class="mb-2">Đáp án:</p>
                 
-                <div class="px-3">
+                <div>
                     <div class="flex gap-1 items-center py-2">
-                        <input type="radio" name="is_correct" value="1"> <label for="">A</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2">
+                        <input type="radio" name="is_correct" value="1"> <label for="">A</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2 border-gray-300 rounded-md font-light focus:border-blue-50">
                     </div>
                     <div class="flex gap-1 items-center py-2">
-                        <input type="radio" name="is_correct" value="2"> <label for="">B</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2">
+                        <input type="radio" name="is_correct" value="2"> <label for="">B</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2 border-gray-300 rounded-md font-light focus:border-blue-50">
                     </div>
                     <div class="flex gap-1 items-center py-2">
-                        <input type="radio" name="is_correct" value="3"> <label for="">C</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2">
+                        <input type="radio" name="is_correct" value="3"> <label for="">C</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2 border-gray-300 rounded-md font-light focus:border-blue-50">
                     </div>
                     <div class="flex gap-1 items-center py-2">
-                        <input type="radio" name="is_correct" value="4"> <label for="">D</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2">
+                        <input type="radio" name="is_correct" value="4"> <label for="">D</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2 border-gray-300 rounded-md font-light focus:border-blue-50">
                     </div>
                 </div>
                 

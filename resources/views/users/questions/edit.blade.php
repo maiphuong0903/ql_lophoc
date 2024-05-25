@@ -19,18 +19,18 @@
 
                <p class="mb-2">Đáp án:</p>
                 
-               <div class="px-3">
+               <div>
                    <div class="flex gap-1 items-center py-2">
-                       <input type="radio" name="is_correct" value="1"> <label for="">A</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2">
+                       <input type="radio" name="is_correct" value="1"> <label for="">A</label> <input type="text" name="answers_content[]" class="w-full ml-2 border-gray-300 rounded-md font-light focus:border-blue-50">
                    </div>
                    <div class="flex gap-1 items-center py-2">
-                       <input type="radio" name="is_correct" value="2"> <label for="">B</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2">
+                       <input type="radio" name="is_correct" value="2"> <label for="">B</label> <input type="text" name="answers_content[]" class="w-full ml-2 border-gray-300 rounded-md font-light focus:border-blue-50">
                    </div>
                    <div class="flex gap-1 items-center py-2">
-                       <input type="radio" name="is_correct" value="3"> <label for="">C</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2">
+                       <input type="radio" name="is_correct" value="3"> <label for="">C</label> <input type="text" name="answers_content[]" class="w-full ml-2 border-gray-300 rounded-md font-light focus:border-blue-50">
                    </div>
                    <div class="flex gap-1 items-center py-2">
-                       <input type="radio" name="is_correct" value="4"> <label for="">D</label> <input type="text" name="answer_content[]" id="" class="w-full ml-2">
+                       <input type="radio" name="is_correct" value="4"> <label for="">D</label> <input type="text" name="answers_content[]" class="w-full ml-2 border-gray-300 rounded-md font-light focus:border-blue-50">
                    </div>
                </div>
                
@@ -44,7 +44,7 @@
                    </select>
               </div>
 
-                <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Tạo</button>
+                <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Cập nhật</button>
             </form>
         </div>
     </div>

@@ -3,8 +3,9 @@
 @section('title', 'Members')
 
 @section('content')
+    @include('partial.toast-message')
     <div class="border-y px-5 py-5 bg-white font-medium fixed top-16 w-full overflow-y-auto">
-        <h1>Vai trò lớp (0)</h1>
+        <h1>Vai trò lớp</h1>
     </div>
     <div class="mt-20 mx-8 mr-80">
         <div class="mt-5 mb-7 grid grid-cols-11 gap-3 items-center ">
@@ -56,9 +57,9 @@
                     </tr>            
                 </tbody>
             </table>
-            <div class="mt-20">
+            {{-- <div class="mt-20">
                 @include('pagination.paginate')
-            </div>
+            </div> --}}
         </div>
     </div>
 

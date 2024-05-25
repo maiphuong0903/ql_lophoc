@@ -16,8 +16,19 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Họ và tên không được để trống',
+            'name.max' => 'Họ và tên tối đa 255 ký tự',
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Email sai định dạng',
+            'email.max' => 'Email tối đa 255 ký tự',
         ];
     }
 }

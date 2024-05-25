@@ -36,12 +36,16 @@
             <li class="relative">
                 <div class="flex flex-1 gap-3 items-center">
                     <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none">
-                        <img src="{{ asset('images/avatar.jpg') }}" alt="" class="object-cover w-10 h-10 rounded-full">
+                        @if(auth()->user()->avatar)
+                            <img src="{{ auth()->user()->avatar }}" alt="Avatar" class="w-12 h-12 rounded-full">
+                        @else
+                            <img src="{{ asset('images/avatar.jpg') }}" alt="" class="object-cover w-12 h-12 rounded-full">
+                        @endif 
                     </button>
                     <div>
                         <h1 class="text-sm font-semibold text-gray-800">{{auth()->user()->name}}</h1>
                         <p class="text-sm text-gray-800">
-                            {{ auth()->user()->role == 1 ? 'Admin' : (auth()->user()->role == 2 ? 'Giáo viên' : 'Học sinh') }}
+                            {{ auth()->user()->role == 1 ? 'Lãnh đạo' : (auth()->user()->role == 2 ? 'Giáo viên' : 'Học sinh') }}
                         </p>                        
                     </div>
                     <button type="button" id="user-menu-togle" class="cursor-pointer">
@@ -56,9 +60,9 @@
                 </div>
                
                 <div class="hidden" id="user-menu">
-                    <ul class="absolute right-0 w-52 p-2 mt-3 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md">
+                    <ul class="absolute right-0 w-52 p-2 mt-3 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-lg z-50">
                         <li class="flex">
-                            <a class="inline-flex items-center w-full px-2 py-1 text-md font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800" href="#">
+                            <a href="{{ route('profile.edit') }}" class="inline-flex items-center w-full px-2 py-1 text-md font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-3">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                   </svg>                                                                    
@@ -88,17 +92,28 @@
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
 <script>
     $(document).ready(function() {
+        // Mở menu mobbilde user
         $('#mobile-menu-toggle').click(function(e) {
             $('#menu-mobile').toggleClass('hidden');
             $('#menu-mobile').addClass('top-[55px] fixed inset-y-0 ');
             $('#user-menu').addClass('hidden');
         });
 
+        // Mở menu user
         $('#user-menu-togle').click(function(e) {
             $('#user-menu').toggleClass('hidden');
             $('.icon-down').toggleClass('hidden');
             $('.icon-up').toggleClass('hidden');
             $('#menu-mobile').addClass('hidden');
+        });
+
+        // Ẩn menu khi click ra ngoài
+        $(document).on('click', function(event) {
+            if (!$(event.target).closest('#user-menu-togle').length && !$(event.target).closest('#user-menu').length) {
+                $('#user-menu').addClass('hidden');
+                $('.icon-down').toggleClass('hidden');
+                $('.icon-up').toggleClass('hidden');
+            }
         });
     });
 </script>

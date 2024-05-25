@@ -27,14 +27,8 @@ class NewsFeed extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function userComments() : BelongsToMany
-    {
-        return $this->belongsToMany(
-            user::class, 
-            'comments', 
-            'user_id', 
-            'news_feed_id',
-            'content',
-        );
+    public function comments(){
+
+        return $this->hasMany(Comment::class);
     }
 }
