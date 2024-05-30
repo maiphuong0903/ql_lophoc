@@ -43,10 +43,15 @@ class ClassRoom extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(
-            ClassRoom::class,
+            User::class,
             'user_class_rooms',  
             'class_room_id',
             'user_id',
-        );
+        )->withPivot('content_role');;
+    }
+
+    public function homeworks()
+    {
+        return $this->hasMany(HomeWork::class);
     }
 }

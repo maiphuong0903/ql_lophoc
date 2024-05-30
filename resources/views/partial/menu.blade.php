@@ -23,14 +23,16 @@
                     <span class="ml-4">Thành viên</span>
                 </a>
             </li>
-            <li class="px-4 py-1">
-                <a href="{{ route('class.class-role', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                    </svg>                                                                
-                    <span class="ml-4">Vai trò lớp</span>
-                </a>
-            </li>
+            @if(auth()->user()->role == 2)
+                <li class="px-4 py-1">
+                    <a href="{{ route('class.class-role', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                        </svg>                                                                
+                        <span class="ml-4">Vai trò lớp</span>
+                    </a>
+                </li>
+            @endif
             <li class="px-4 py-1">
                 <a href="{{ route('class.document', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -47,22 +49,24 @@
                     <span class="ml-4">Bài tập</span>
                 </a>
             </li>
-            <li class="px-4 py-1">
-                <a href="{{ route('class.questions', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-                        <circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 1.65-1.35 3-3 3s-3-1.35-3-3"></path><line x1="12" y1="17" x2="12" y2="17"></line>
-                    </svg>                                                                                    
-                    <span class="ml-4">Bộ câu hỏi</span>
-                </a>
-            </li>
-            <li class="px-4 py-1">
-                <a class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl" href="">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-library" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="4" y="4" width="16" height="16" rx="2" /><line x1="12" y1="8" x2="12" y2="16" /><line x1="8" y1="12" x2="16" y2="12" />
-                    </svg>                                                                                    
-                    <span class="ml-4">Kho đề kiểm tra</span>
-                </a>
-            </li>
+            @if(auth()->user()->role == 2)
+                <li class="px-4 py-1">
+                    <a href="{{ route('class.questions', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+                            <circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 1.65-1.35 3-3 3s-3-1.35-3-3"></path><line x1="12" y1="17" x2="12" y2="17"></line>
+                        </svg>                                                                                    
+                        <span class="ml-4">Bộ câu hỏi</span>
+                    </a>
+                </li>
+                <li class="px-4 py-1">
+                    <a class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl" href="">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-library" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="4" y="4" width="16" height="16" rx="2" /><line x1="12" y1="8" x2="12" y2="16" /><line x1="8" y1="12" x2="16" y2="12" />
+                        </svg>                                                                                    
+                        <span class="ml-4">Kho đề kiểm tra</span>
+                    </a>
+                </li>
+            @endif
             <li class="px-4 py-1">
                 <a href="{{ route('class.exams', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -71,27 +75,62 @@
                     <span class="ml-4">Bài kiểm tra</span>
                 </a>
             </li>
-            <li class="px-4 py-1">
-                <a class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl" href="">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
-                    </svg>                                                               
-                    <span class="ml-4">Bảng điểm</span>
-                </a>
-            </li>
+            @if(auth()->user()->role == 2)
+                <li class="px-4 py-1">
+                    <a href="{{ route('class.score-table', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+                        </svg>                                                               
+                        <span class="ml-4">Bảng điểm</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
     <div class="absolute bottom-14 w-full">
         <hr>
         <div class="px-4 py-3">
-            <a href="{{ route('class.edit', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>                                                        
-                <span class="ml-4">Cài đặt lớp học</span>
-            </a>
+            @if(auth()->user()->role == 2 && auth()->user()->id == $classRoom->created_by)
+                <a href="{{ route('class.edit', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>                                                        
+                    <span class="ml-4">Cài đặt lớp học</span>
+                </a>
+            @else
+                <button type="button" data-class-room-id="{{ $classRoom->id }}" data-student-id="{{ auth()->user()->id }}" class="leaveClass inline-flex items-center w-full text-md text-gray-700 font-bold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                    </svg>                                                       
+                    <span class="ml-4">Rời khỏi lớp</span>
+                </button>
+               
+            @endif
         </div>
     </div>
 </div> 
+@include('classes.leave-class')
+<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+        // Mở form rời khỏi lớp
+        $(document).on('click', '.leaveClass', function(){
+            $('#leaveClassModal').removeClass('hidden');
+            let classRoomId = $(this).data('class-room-id');     
+            let studentId = $(this).data('student-id');
 
+            let formAction = "{{ route('class.student.leaveClass', [':classId', ':studentId']) }}";     
+            formAction = formAction.replace(':classId', classRoomId);
+            formAction = formAction.replace(':studentId', studentId);    
+            $('#leaveForm').attr('action', formAction);
+        });
+
+        // Đóng form rời khỏi lớp
+        $('[data-modal-toggle="deleteModal"]').click(function(){
+            $('#leaveClassModal').addClass('hidden');
+        });
+    });
+
+
+</script>

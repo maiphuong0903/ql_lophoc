@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClassRoom;
 use App\Models\Document;
 use Exception;
 use Illuminate\Http\Request;
@@ -11,8 +12,19 @@ class DocumentController extends Controller
 {
     public function index(Request $request)
     {
-        $documents = Document::filter($request->all())->where('created_by', auth()->user()->id)->get();
-        return view('users.files.index', compact('documents'));
+        $classRoomId = $request->id;
+        $documents = Document::filter($request->all())
+                    ->whereHas('author', function ($query) use ($classRoomId) {
+                        $query->whereHas('classRooms', function ($innerQuery) use ($classRoomId) {
+                        $innerQuery->where('class_rooms.id', $classRoomId)
+                                    ->where('role', 2); 
+                            });
+                        })
+                    ->get();
+        
+        $classRooms = ClassRoom::all();
+
+        return view('users.files.index', compact('documents', 'classRooms'));
     }
 
     public function show($id, $documentId)
@@ -53,6 +65,18 @@ class DocumentController extends Controller
         } catch (Exception $e) {
             Log::info("Error: " . $e->getMessage());
             return redirect()->back()->with('error', 'Xóa tài liệu thất bại');
+        }
+    }
+
+    public function shareFile(Request $request){
+        dd($request->all());
+        $documentIds = json_decode($request->input('document_ids'));
+        foreach($documentIds as $documentId){
+            $document = Document::find($documentId);
+
+            foreach($request->input('class') as $classId){
+                // Document::create()
+            }
         }
     }
 }

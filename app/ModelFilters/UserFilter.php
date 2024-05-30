@@ -29,4 +29,16 @@ class UserFilter extends ModelFilter
             $this->where('name', 'LIKE', "%$value%");
         });
     }
+
+    public function sortBy($value)
+    {
+        switch ($value) {
+            case 'asc':
+                return $this->orderBy('name', 'asc');               
+            case 'desc':
+                return $this->orderBy('name', 'desc');         
+            default:
+                return;
+        }
+    }
 }

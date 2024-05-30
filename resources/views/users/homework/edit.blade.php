@@ -73,7 +73,7 @@
             
                 <div class="p-4 border-t border-gray-200 rounded-b flex gap-3 justify-end">
                     <a href="{{ route('class.homework', $classRoom->id) }}" class="text-white bg-gray-500 hover:bg-gray-600 font-medium rounded-lg text-md px-5 py-2 text-center">Hủy</a>
-                    <button class="text-white bg-blue-500 hover:bg-blue-600 font-medium rounded-lg text-md px-5 py-2 text-center" type="submit">Đăng bài</button>
+                    <button class="text-white bg-blue-500 hover:bg-blue-600 font-medium rounded-lg text-md px-5 py-2 text-center" type="submit">Cập nhật</button>
                 </div>      
             </div>
         </form>

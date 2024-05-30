@@ -13,8 +13,8 @@ class NewsFeedController extends Controller
 {
     public function index($id)
     {
-        $newsFeeds = NewsFeed::with(['author', 'comments'])->where('class_room_id', $id)->withCount('comments')->get();
-
+        $newsFeeds = NewsFeed::with(['author', 'comments.user'])->where('class_room_id', $id)->withCount('comments')->get();
+        
         return view('users.news.index', compact('newsFeeds'));
     }
 

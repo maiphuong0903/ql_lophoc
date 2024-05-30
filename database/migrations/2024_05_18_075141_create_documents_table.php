@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('document_url');
             $table->unsignedBigInteger('topic_id')->nullable();
             $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('class_room_id');
             $table->timestamps();
 
+            $table->foreign('class_room_id')->references('id')->on('class_rooms')->onDelete('cascade');
             $table->foreign('topic_id')->references('id')->on('topics');
             $table->foreign('created_by')->references('id')->on('users');
         });

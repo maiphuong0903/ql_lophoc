@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ClassRoomRequest;
 use App\Models\ClassRoom;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -13,7 +14,16 @@ class ClassRoomController extends Controller
 {
     public function index(Request $request)
     {      
-        $classRoom = ClassRoom::filter($request->all())->where('created_by', auth()->user()->id)->get();
+        $userId = auth()->user()->id;
+        $classRoom = ClassRoom::filter($request->all())
+                    ->where(function ($query) use ($userId) {
+                        $query->where('created_by', $userId)
+                            ->orWhereHas('users', function ($query) use ($userId) {
+                            $query->where('user_id', $userId);
+                        });
+                    })
+                    ->get();
+      
         return view('classes.index', compact('classRoom'));
     }
 
@@ -97,5 +107,29 @@ class ClassRoomController extends Controller
         }
 
         return null;
+    }
+
+    public function joinClassRoom(){
+        return view('classes.join-class');
+    }
+
+    public function joinClassRoomStore(Request $request){
+       $classRoom = ClassRoom::where('code', $request->code)->first();
+
+        if (!$classRoom) {
+           return redirect()->back()->with('error', 'Không tồn tại lớp học này');
+        }
+
+        $student = User::find(auth()->user()->id);
+       
+        if ($classRoom->users()->where('user_id', $student->id)->exists()) {
+
+            return redirect()->route('class')->with('error', 'Bạn đã tham gia lớp học này');
+        } 
+
+        $classRoom->users()->attach($student->id, ['content_role' => 'Học sinh lớp']);
+
+        return redirect()->route('class')->with('success', 'Tham gia lớp học thành công');
+        
     }
 }

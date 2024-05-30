@@ -20,8 +20,10 @@ return new class extends Migration
             $table->string('homework_file');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('topic_id')->nullable();
+            $table->unsignedBigInteger('class_room_id');
             $table->timestamps();
 
+            $table->foreign('class_room_id')->references('id')->on('class_rooms')->onDelete('cascade');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('topic_id')->references('id')->on('topics');
         });

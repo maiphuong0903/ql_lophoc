@@ -2,17 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\HomeWorksExport;
+use App\Models\AnswerHomeWork;
+use App\Models\ClassRoom;
 use App\Models\HomeWork;
+use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HomeWorkController extends Controller
 {
     public function index(Request $request)
     {
-        $homeworks = HomeWork::filter($request->all())->where('created_by', auth()->user()->id)->get();
+        $classRoomId = $request->id;
+        $homeworks = Homework::filter($request->all())
+                    ->whereHas('author', function ($query) use ($classRoomId) {
+                        $query->whereHas('classRooms', function ($innerQuery) use ($classRoomId) {
+                                $innerQuery->where('class_rooms.id', $classRoomId)
+                                            ->where('role', 2); 
+                                });
+                            })
+                    ->get();
+                    
         return view('users.homework.index', compact('homeworks'));
     }
 
@@ -22,14 +37,14 @@ class HomeWorkController extends Controller
 
     public function store(Request $request){
         try{
-            
             $homework = $request->all();   
-            $homework['created_by'] = auth()->user()->id; 
-
+            
             if ($request->homework_file) {
                 $homework['homework_file'] = $request->file('homework_file')->store('pdfs', 'public');
             }
-            
+
+            $homework['created_by'] = auth()->user()->id; 
+            $homework['class_room_id'] = $request->class_room_id;
             HomeWork::create($homework);
             
             return redirect()->route('class.homework', $request->class_room_id )->with('success', 'Tạo bài tập lên thành công');
@@ -93,8 +108,83 @@ class HomeWorkController extends Controller
         }
     }
 
-    public function info($classId, $homeworkId){
+    public function info(Request $request, $classId, $homeworkId){
+        $homework = HomeWork::with(['assignedUsers' => function($query) {
+            $query->whereNotNull('users_answers_home_works.answer'); 
+        }])->find($homeworkId);
         
-        return view('users.homework.homework-info');
+        $assignedUsers = $homework->assignedUsers()->filter($request->all())->paginate(10);
+    
+        return view('users.homework.homework-info', compact('assignedUsers', 'homework'));
+    }
+
+    public function detailHomeWork($id, $homeworkId){
+        $homework = HomeWork::with('assignedUsers')->find($homeworkId);
+
+        $isSubmitted = $homework->isSubmittedByStudent(auth()->user()->id);
+        
+        $filePath = config('app.url') . '/storage/' . $homework->homework_file;
+
+        return view('users.homework.detail-homework', compact('homework', 'isSubmitted', 'filePath'));
+    }
+
+    public function detailAnswerHomeWork($id, $homeworkId, $studentId){
+        $homework = HomeWork::with(['assignedUsers' => function($query) use ($studentId) {
+            $query->where('user_id', $studentId);
+        }])->find($homeworkId);
+      
+        $student = User::find($studentId);
+
+        return view('users.homework.mark-homework', compact('homework', 'student'));
+    }
+
+    public function markHomework(Request $request, $id, $homeworkId, $studentId){
+        try{
+            $homework = HomeWork::find($homeworkId);
+    
+            $homework->assignedUsers()->updateExistingPivot($studentId, [
+                'score' => $request->input('score'),
+                'comment' => $request->input('comment'),
+            ]);
+    
+            return redirect()->route('class.homework.info', ['id' => $id, 'homeworkId' => $homeworkId])->with('success', 'Đã chấm bài');
+        }catch(Exception $e){
+            Log::info("Error: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Chấm bài thất bại');
+        }
+    }
+
+    public function editScoreHomework(Request $request, $id, $homeworkId, $studentId){
+        try{
+            $homework = HomeWork::find($homeworkId);
+    
+            $homework->assignedUsers()->updateExistingPivot($studentId, [
+                'score' => $request->input('score'),
+            ]);
+    
+            return redirect()->back()->with('success', 'Cập nhật điểm thành công');
+        }catch(Exception $e){
+            Log::info("Error: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Cập nhật điểm thất bại');
+        }
+    }
+
+    public function editCommentHomework(Request $request, $id, $homeworkId, $studentId){
+        try{
+            $homework = HomeWork::find($homeworkId);
+    
+            $homework->assignedUsers()->updateExistingPivot($studentId, [
+                'comment' => $request->input('comment'),
+            ]);
+    
+            return redirect()->back()->with('success', 'Cập nhật lời phê thành công');
+        }catch(Exception $e){
+            Log::info("Error: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Cập nhật lời phê thất bại');
+        }
+    }
+
+    public function exportScoreHomeWork(Request $request){
+        return Excel::download(new HomeWorksExport($request),"scoreHomeWork_" .  Carbon::now()->format('d:m:Y-H:i') . ".xlsx");
     }
 }

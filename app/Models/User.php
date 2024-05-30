@@ -63,9 +63,9 @@ class User extends Authenticatable
         return $this->belongsToMany(
             ClassRoom::class,
             'user_class_rooms',
-            'class_room_id',
             'user_id',
-        );
+            'class_room_id',
+        )->withPivot('content_role');;
     }
 
     public function created_by_comment(): HasMany
@@ -115,11 +115,8 @@ class User extends Authenticatable
             HomeWork::class,
             'users_answers_home_works',
             'user_id',
-            'homework_id',
-            'answer',
-            'score',
-            'homework_file',
-        );
+            'home_work_id',
+        )->withPivot('answer', 'comment', 'score', 'created_at', 'updated_at');
     }
 
     public function created_by_question(): HasMany

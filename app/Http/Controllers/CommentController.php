@@ -22,9 +22,9 @@ class CommentController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($newsFeedId, $commentId){
         try{
-            $comment = Comment::find($id);
+            $comment = Comment::find($commentId);
             if (!$comment) {
                 return redirect()->back()->with('error', 'Không tìm thấy bình luận');
             }
