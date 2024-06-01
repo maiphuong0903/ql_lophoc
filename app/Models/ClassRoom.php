@@ -47,7 +47,7 @@ class ClassRoom extends Model
             'user_class_rooms',  
             'class_room_id',
             'user_id',
-        )->withPivot('content_role');;
+        )->withPivot('content_role','status' ,'created_at', 'updated_at');
     }
 
     public function homeworks()

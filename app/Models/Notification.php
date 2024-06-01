@@ -16,6 +16,7 @@ class Notification extends Model
         'created_by',
         'type',
         'class_room_id',
+        'is_accept',
     ];
 
     public function author()

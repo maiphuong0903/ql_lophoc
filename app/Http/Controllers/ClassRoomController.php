@@ -19,7 +19,8 @@ class ClassRoomController extends Controller
                     ->where(function ($query) use ($userId) {
                         $query->where('created_by', $userId)
                             ->orWhereHas('users', function ($query) use ($userId) {
-                            $query->where('user_id', $userId);
+                            $query->where('user_id', $userId)
+                                    ->where('status', 3);
                         });
                     })
                     ->get();

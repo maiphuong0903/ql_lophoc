@@ -55,7 +55,7 @@ class User extends Authenticatable
 
     public function created_by_class_room(): HasMany
     {
-        return $this->hasMany(ClassRoom::class);
+        return $this->hasMany(ClassRoom::class, 'created_by');
     }
 
     public function classRooms(): BelongsToMany
@@ -65,7 +65,7 @@ class User extends Authenticatable
             'user_class_rooms',
             'user_id',
             'class_room_id',
-        )->withPivot('content_role');;
+        )->withPivot('content_role','status' ,'created_at', 'updated_at');
     }
 
     public function created_by_comment(): HasMany

@@ -1,4 +1,4 @@
-<div class="hidden w-60 overflow-y-auto bg-white md:block flex-shrink-0 pt-1.5 border-t mt-2" id="menu-mobile">
+<div class="hidden w-60 overflow-y-auto bg-white md:block flex-shrink-0 pt-1.5 border mt-2 relative min-h-[calc(100vh-20px)]" id="menu-mobile">
     <div class="px-4 py-3">
         <h1 class="font-medium text-[18px] text-blue-500">{{ $classRoom->name }}</h1>
         <p class="text-[15px] mt-1">Mã lớp: {{ $classRoom->code }}</p>

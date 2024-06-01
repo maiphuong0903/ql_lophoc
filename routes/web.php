@@ -108,11 +108,13 @@ Route::prefix('class')->group(function () {
     Route::get('{id}/exams', [ExamController::class, 'index'])->name('class.exams');
     Route::post('{id}/exams/store', [ExamController::class, 'store'])->name('class.exams.store');
 
-    // class role
+    // class role - teacher
     Route::get('{id}/class-role', [ClassRoleController::class, 'index'])->name('class.class-role');
     Route::post('{id}/class-role/addTeacher', [ClassRoleController::class, 'addTeacher'])->name('class.class-role.addTeacher');
     Route::delete('{id}/class-role/{teacherId}/destroy', [ClassRoleController::class, 'deleteTeacher'])->name('class.class-role.deleteTeacher');
     Route::get('{id}/class-role/printExcel', [ClassRoleController::class, 'exportTeacher'])->name('class-role.printExcel');
+    Route::delete('{id}/class-role/{teacherId}/rejectJoinClass/{notiId}', [ClassRoleController::class, 'rejectJoinClass'])->name('class.class-role.rejectJoinClass');
+    Route::post('{id}/class-role/{teacherId}/acceptJoinClass/{notiId}', [ClassRoleController::class, 'acceptJoinClass'])->name('class.class-role.acceptJoinClass');
 
     // score table
     Route::get('{id}/score-table', [ScoreTableController::class, 'index'])->name('class.score-table');
