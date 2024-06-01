@@ -5,7 +5,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
               
-            <a class="text-lg font-bold text-gray-800" id="name-project" href="#">Windmill</a>
+            <a class="text-lg font-bold text-gray-800" id="name-project" href="#">Wind Classroom</a>
         </div>
 
         <button class="p-1 mr-5 -ml-1 rounded-md md:hidden focus:outline-none focus:shadow-outline-purple" naria-label="Menu" id="mobile-menu-toggle">

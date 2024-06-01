@@ -6,7 +6,7 @@
     <div class="border border-1 px-5 py-5 bg-white font-medium">
         <h1>Bài kiểm tra</h1>
     </div>
-    <div class="mt-20 mx-5">
+    <div class="mx-5">
         {{-- search --}}
         <div class="mt-5 mb-5 grid grid-cols-7 gap-3 items-center mx-5">
             <div class="col-span-4 relative flex justify-between items-center">

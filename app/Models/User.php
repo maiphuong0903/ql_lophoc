@@ -98,7 +98,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(
             Notification::class,
-            'user_notification',
+            'user_notifications',
             'user_id',
             'notification_id',
         );

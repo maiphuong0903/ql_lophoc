@@ -16,6 +16,7 @@ class Document extends Model
         'document_url',
         'topic_id',
         'created_by',
+        'class_room_id'
     ];
 
     public function author()

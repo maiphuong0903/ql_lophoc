@@ -13,7 +13,7 @@
     <header class="fixed w-full">
         <nav class="bg-white shadow-sm border-gray-200 py-4 z-40">
             <div class="flex flex-wrap items-center justify-between max-w-screen-2xl px-10 mx-auto">
-                <a href="#" class="flex items-center self-center text-xl font-semibold whitespace-nowrap">Landwind</a>
+                <a href="#" class="flex items-center self-center text-xl font-semibold whitespace-nowrap">Wind Classroom</a>
                 <div class="flex items-center md:order-2">
                     <div class="col-span-3">
                         <ul class="flex flex-1 gap-3 justify-end px-3">
@@ -52,7 +52,7 @@
     <section id="home">
         <div class="grid lg:max-w-screen-2xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:pt-28 lg:pb-6 lg:grid-cols-12">
             <div class="mr-auto place-self-center lg:col-span-6 xl:col-span-7 mx-auto">
-                <h1 class="text-[#1d88e5] text-[20px] lg:text-[20px]">PhuongClassroom</h1>
+                <h1 class="text-[#1d88e5] text-[20px] lg:text-[20px]">Wind Classroom</h1>
                 <p class="max-w-2xl mb-3 text-2xl font-extrabold leading-none tracking-tight md:text-5xl lg:text-4xl">Một cách hiệu quả để quản lý lớp học</p>
                 <p class="max-w-2xl mb-3 font-light text-gray-700 md:text-lg lg:text-xl">Ứng dụng quản lý lớp học PhuongClassroom kết nối học sinh và giáo viên một cách dễ dàng chỉ cần Internet, áp dụng từ quy mô lớp học đến toàn hệ thống trường học.</p>
                 <button class="bg-[#167cef] px-10 py-3 rounded-2xl text-white text-[22px] mt-3 mb-6 font-medium hover:bg-blue-600">Tham gia ngay</button>
@@ -203,7 +203,7 @@
             <div class="container mx-auto px-4 max-w-screen-xl">
                 <div class="flex flex-wrap text-left lg:text-left">
                     <div class="w-full lg:w-6/12 px-4 mb-10 lg:mb-0">
-                        <h4 class="text-3xl fonat-semibold mb-3">PhuongClassroom!</h4>
+                        <h4 class="text-3xl fonat-semibold mb-3">Wind Classroom!</h4>
                         <h5 class="text-lg mt-0 mb-3">
                             Số 3 Đ. Cầu Giấy, Láng Thượng, Cầu Giấy, Hà Nội, Việt Nam
                         </h5>

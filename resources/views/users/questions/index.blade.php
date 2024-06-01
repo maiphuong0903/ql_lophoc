@@ -178,8 +178,7 @@
             $('.menu-question').addClass('hidden');
             $('#deleteModal').removeClass('hidden');
             let questionId = $(this).data('question-id');
-            let formAction = "{{ route('class.questions.destroy', ':questionId') }}".replace(
-                ':questionId', questionId);
+            let formAction = "{{ route('class.questions.destroy', ':questionId') }}".replace(':questionId', questionId);
             $('#deleteForm').attr('action', formAction);
         });
 

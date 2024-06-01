@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClassRoom;
-use App\Models\Comment;
 use App\Models\NewsFeed;
+use App\Models\Notification;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -14,8 +13,17 @@ class NewsFeedController extends Controller
     public function index($id)
     {
         $newsFeeds = NewsFeed::with(['author', 'comments.user'])->where('class_room_id', $id)->withCount('comments')->get();
-        
-        return view('users.news.index', compact('newsFeeds'));
+        $user_id = auth()->user()->id;
+        $createdNotifications = Notification::where('created_by', $user_id);
+
+        // Lấy tất cả các thông báo được gửi đến cho người dùng
+        $receivedNotifications = Notification::whereHas('users', function ($query) use ($user_id) {
+                $query->where('user_id', $user_id)->where('type', 1);
+        });
+
+        $notis = $createdNotifications->union($receivedNotifications)->get();
+
+        return view('users.news.index', compact('newsFeeds', 'notis'));
     }
 
     public function store(Request $request){

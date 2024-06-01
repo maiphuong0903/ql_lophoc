@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->text('content');
+            $table->integer('type')->comment('1: Thông báo, 2: Gửi lời mời học sinh, 3: Gửi lời mời giáo viên, 4: Tham gia lớp');
             $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('class_room_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('class_room_id')->references('id')->on('class_rooms')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

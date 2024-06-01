@@ -24,16 +24,23 @@
             <iframe src="{{ $filePath }}" width="800" height="700"></iframe>
         </div>
         {{-- Đối với học sinh --}}
-        <div class="border w-2/5 h-full py-4 px-6 fixed top-16 right-0 overflow-y-scroll">     
+        <div class="border w-2/5 h-full py-4 px-6 fixed top-16 right-0 overflow-y-scroll"> 
+            <div class="flex justify-between">
+                <p class="font-medium">Hạn nộp bài tập:</p>  
+                @if ($hasDeadlinePassed)
+                    <p class="text-red-500">Đã hết hạn nộp bài</p>
+                @else
+                    <p> {{ $homework->end_date ? date('d/m/Y H:i', strtotime($homework->end_date)) : 'không có hạn nộp' }}</p>
+                @endif
+            </div>  
             <form action="{{ route('class.student.createAnswerHomeWork', ['homeworkId'=> $homework->id, 'studentId' => auth()->user()->id]) }}" method="POST">
                 @csrf
                 <div class="mt-6">
                     <p class="mb-4 font-bold">Trả lời:</p>
                     <textarea name="answer" id="editor">@if($isSubmitted){{ $homework->assignedUsers->where('id', auth()->user()->id)->first()->pivot->answer }}@endif</textarea>      
                 </div>    
-                @unless($isSubmitted)
-                    <button type="submit" class="text-white bg-blue-600 font-medium rounded-lg text-md px-5 py-2 text-center w-full mt-10">Nộp Bài</button> 
-                @endunless
+                <button type="submit" class="text-white font-medium rounded-lg text-md px-5 py-2 text-center w-full mt-10
+                {{ $isSubmitted || $hasDeadlinePassed ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700' }}">Nộp Bài</button>
             </form>
         </div>        
     </div>

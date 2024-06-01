@@ -12,7 +12,7 @@
         <div class="col-span-4">
             {{-- search --}}
             <div class="mt-5 mb-5 grid grid-cols-7 gap-3 mx-5">
-                <div class="{{ auth()->user()->role == 2 ? 'col-span-4' : 'col-span-5' }}">
+                <div class="{{ auth()->user()->role == 2 ? 'col-span-3' : 'col-span-5' }}">
                     <form action="{{ route('class.homework', $classRoom->id) }}" method="GET" class="w-full">
                         <div class="relative flex justify-between items-center">
                             <input type="text" name="search" class="border border-gray-300 rounded-md focus:border-blue-50 focus:outline-none w-full cursor-pointer" placeholder="Tìm kiếm theo tiêu đề...">
@@ -50,7 +50,12 @@
                     </div>        
                 </div>
             
-                @if (auth()->user()->role == 2)             
+                @if (auth()->user()->role == 2)    
+                    <div class="col-span-1">
+                        <div class="flex items-center gap-2 bg-blue-500 py-2 px-2 rounded-md text-white justify-center">
+                            <button id="openshareHomeWorkForm">Chia sẻ bài tập</button>
+                        </div>
+                    </div>         
                     <div class="col-span-1">        
                         <div class="flex items-center gap-2 bg-blue-500 py-2 px-2 rounded-md text-white justify-center">
                             <a href="{{ route('class.homework.create', $classRoom->id) }}">Tạo bài tập</a>
@@ -62,8 +67,13 @@
             {{-- danh sách bài tập --}}
             @forelse ($homeworks as $homework)
                 <div class="hover:bg-gray-100 py-3 px-5">
-                    <h1 class="text-gray-950 font-medium">{{ $homework->title }}</h1>
-                    <div class="flex flex-1 justify-between items-center px-2cursor-pointer ">
+                    <div class="flex gap-2 items-center">
+                        @if (auth()->user()->role == 2)         
+                            <input type="checkbox" id="homework-{{$homework->id}}" value="{{ $homework->id }}">
+                        @endif                      
+                        <h1 class="text-gray-950 font-medium">{{ $homework->title }}</h1>
+                   </div>   
+                    <div class="flex flex-1 justify-between items-center py-2 cursor-pointer">
                         @if (auth()->user()->role == 2)
                             <a href="{{ route('class.homework.show-file-homework', ['id' => $classRoom->id, 'homeworkId' => $homework->id]) }}" class="text-gray-950 text-[15px] cursor-pointer hover:underline hover:text-blue-500">{{ $homework->homework_file }}</a>          
                         @else
@@ -112,6 +122,36 @@
             @endforelse
         </div>
     </div>
+
+     {{-- modal share-homework --}}
+     <div id="shareHomeWorkFormModal" class="fixed z-20 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen text-gray-950">
+            <div class="bg-white w-1/4 p-6 rounded-xl shadow-lg">
+                <div class="flex justify-between">
+                    <h1>Chia sẻ bài tập</h1>
+                    <button id="closeShareHomeWorkForm" class="text-gray-500 hover:text-red-500">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <p class="font-light text-[14px] py-5 text-left">Giáo viên có thể chia sẻ các bài tập với các lớp khác.</p>
+    
+                <form action="{{ route('class.homework.shareHomeWork', $classRoom->id) }}" method="post">
+                    @csrf
+                    <input type="hidden" name="homework_ids">
+                    @foreach ($classRooms as $classRoom)
+                        <div class="flex gap-2 mx-5 items-center">
+                            <input type="checkbox" name="class[]" id="" value="{{ $classRoom->id }}">
+                            <p class="font-semibold">{{ $classRoom->name }}</p>
+                        </div>
+                    @endforeach
+                    <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Chia sẻ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @stop
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
 <script>
@@ -157,6 +197,32 @@
             $('#editHomeWorkFormModal').addClass('hidden');
             $('#overlay').addClass('hidden');
             $('.menu-homework').addClass('hidden');
+        });
+
+         // Mở form chia sẻ bài tập
+         $('#openshareHomeWorkForm').on('click', function() {
+            $('#shareHomeWorkFormModal').removeClass('hidden');
+            $('#overlay').removeClass('hidden');
+        });
+
+        // Đóng form chia sẻ bài tập
+        $('#closeShareHomeWorkForm').on('click', function() {
+            $('#shareHomeWorkFormModal').addClass('hidden');
+            $('#overlay').addClass('hidden');
+        });
+
+         // lấy dữ liệu checkbox bài tập thêm vào form khi ấn chia sẻ bài tập
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][id^="homework-"]');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                const checkedDocuments = [];
+                checkboxes.forEach(function (checkbox) {
+                    if (checkbox.checked) {
+                        checkedDocuments.push(checkbox.value);
+                    }
+                });
+                document.querySelector('input[name="homework_ids"]').value = JSON.stringify(checkedDocuments);
+            });
         });
     });
 

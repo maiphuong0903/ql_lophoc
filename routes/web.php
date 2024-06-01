@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ExamController;
+use App\Http\Controllers\NotiController;
 use App\Http\Controllers\ScoreTableController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
@@ -94,6 +95,7 @@ Route::prefix('class')->group(function () {
     Route::put('{id}/homework/{homeworkId}/student/{studentId}/detailAnswer/updateScore', [HomeWorkController::class, 'editScoreHomework'])->name('class.homework.editScoreHomework');
     Route::put('{id}/homework/{homeworkId}/student/{studentId}/detailAnswer/updateComment', [HomeWorkController::class, 'editCommentHomework'])->name('class.homework.editCommentHomework');
     Route::get('{id}/homework/{homeworkId}/printExcel', [HomeWorkController::class, 'exportScoreHomeWork'])->name('homework.printExcel');
+    Route::post('{id}/homework/share-homework', [HomeWorkController::class, 'shareHomeWork'])->name('class.homework.shareHomeWork');
 
     //questions
     Route::get('{id}/questions', [QuestionController::class, 'index'])->name('class.questions');
@@ -115,5 +117,9 @@ Route::prefix('class')->group(function () {
     // score table
     Route::get('{id}/score-table', [ScoreTableController::class, 'index'])->name('class.score-table');
     Route::get('{id}/score-table/printExcel', [ScoreTableController::class, 'exportScoreStudent'])->name('score-table.printExcel');
+
+    // noti
+    Route::post('{id}/noti/store', [NotiController::class, 'store'])->name('class.noti.store');
+    Route::delete('{classId}/noti/{notiId}/destroy', [NotiController::class, 'destroy'])->name('class.noti.destroy');
 
 });

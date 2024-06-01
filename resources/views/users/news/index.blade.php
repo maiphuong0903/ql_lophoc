@@ -135,23 +135,10 @@
                 @endforelse
            </div>
         </div>
-
-        <div class="w-80 border border-1 px-5 py-5 bg-white">
-            <h1 class="font-medium mb-5">Thông báo</h1>
-            {{-- <img src="{{ asset('images/noti.png') }}" class="w-[170px] h-[130px] mx-auto mt-36">
-            <h1 class="font-medium pt-5 text-[17px] text-center mt-14">Lớp học chưa có thông báo nào</h1>
-            <p class="text-gray-600 text-center">Nội dung thông báo của giáo viên sẽ xuất hiện ở đây</p> --}}
-
-            <div class="flex flex-1 gap-2 mt-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-10 h-10">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
-               <div>
-                    <p class="text-[14px] font-medium">Nội dung thông báo</p> 
-                    <p class="text-gray-500 text-[12px]">09-03-2002 23:11</p>
-               </div>
+        <div class="col-span-1">
+            <div class="border border-1 px-5 py-5 bg-white h-full right-0">
+                @include('users.notis.index')
             </div>
-           
         </div>
     </div>
 @stop

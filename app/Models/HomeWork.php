@@ -47,6 +47,17 @@ class HomeWork extends Model
         return $this->assignedUsers()->wherePivot('user_id', $studentId)->exists();
     }
 
+    public function hasDeadlinePassed($end_date)
+    {
+        if ($end_date === null) {
+            return false;
+        }
+
+        $endDateTime = \Carbon\Carbon::parse($end_date);
+
+        return now()->gt($endDateTime);
+    }
+
     public function isGradedByTeacher($studentId)
     {
         return $this->assignedUsers()->where('user_id', $studentId)->whereNotNull('users_answers_home_works.score')->exists();

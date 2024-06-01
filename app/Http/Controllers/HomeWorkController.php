@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -19,7 +20,9 @@ class HomeWorkController extends Controller
     public function index(Request $request)
     {
         $classRoomId = $request->id;
+
         $homeworks = Homework::filter($request->all())
+                    ->where('class_room_id', $classRoomId)
                     ->whereHas('author', function ($query) use ($classRoomId) {
                         $query->whereHas('classRooms', function ($innerQuery) use ($classRoomId) {
                                 $innerQuery->where('class_rooms.id', $classRoomId)
@@ -27,8 +30,10 @@ class HomeWorkController extends Controller
                                 });
                             })
                     ->get();
-                    
-        return view('users.homework.index', compact('homeworks'));
+
+        $classRooms = ClassRoom::where('created_by', auth()->user()->id)->get();
+
+        return view('users.homework.index', compact('homeworks', 'classRooms'));
     }
 
     public function create(){
@@ -120,12 +125,11 @@ class HomeWorkController extends Controller
 
     public function detailHomeWork($id, $homeworkId){
         $homework = HomeWork::with('assignedUsers')->find($homeworkId);
-
         $isSubmitted = $homework->isSubmittedByStudent(auth()->user()->id);
-        
+        $hasDeadlinePassed = $homework->hasDeadlinePassed($homework->end_date);
         $filePath = config('app.url') . '/storage/' . $homework->homework_file;
 
-        return view('users.homework.detail-homework', compact('homework', 'isSubmitted', 'filePath'));
+        return view('users.homework.detail-homework', compact('homework', 'isSubmitted','hasDeadlinePassed', 'filePath'));
     }
 
     public function detailAnswerHomeWork($id, $homeworkId, $studentId){
@@ -186,5 +190,41 @@ class HomeWorkController extends Controller
 
     public function exportScoreHomeWork(Request $request){
         return Excel::download(new HomeWorksExport($request),"scoreHomeWork_" .  Carbon::now()->format('d:m:Y-H:i') . ".xlsx");
+    }
+
+    public function shareHomeWork(Request $request){
+        try{
+            DB::beginTransaction(); 
+            
+            $homeworkIds = json_decode($request->input('homework_ids'));
+            foreach ($homeworkIds as $homeworkId) {
+                $homework = HomeWork::find($homeworkId);
+    
+                foreach ($request->input('class') as $classId) {
+                    $existingHomeWork = HomeWork::where('class_room_id', $classId)
+                                                ->where('title', $homework->title)
+                                                ->first();
+    
+                    if ($existingHomeWork) {
+                        $classRoom = ClassRoom::find($classId);
+                        $errorMessage = "Bài tập '{$homework->title}' đã tồn tại trong lớp '{$classRoom->name}'.";
+                        return redirect()->back()->with('error', $errorMessage);
+                    } else {
+                        // Tạo bản sao của bài tập và gán mã lớp học mới
+                        $newHomeWork = $homework->replicate();
+                        $newHomeWork->class_room_id = $classId;
+                        $newHomeWork->save();
+                    }
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Chia sẻ bài tập thành công');
+        } catch(Exception $e) {
+            DB::rollBack();
+            Log::info("Error: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Chia sẻ bài tập thất bại');
+        }
     }
 }
