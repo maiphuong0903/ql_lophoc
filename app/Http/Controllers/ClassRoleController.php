@@ -39,18 +39,12 @@ class ClassRoleController extends Controller
         ->paginate(10);
         
         $request->session()->put('search', $request->all());
-        $teachers->appends($request->all());
+        $teachers->appends($request->all());  
 
-        // lấy ra tất cả thông báo người này đã nhận được
-        $user_id = auth()->user()->id;
-        $notis = Notification::whereHas('users', function ($query) use ($user_id) {
-                $query->where('user_id', $user_id)->where('type', 3);
-            })->get();
-
-        return view('users.class-roles.index', compact('teachers', 'notis'));
+        return view('users.class-roles.index', compact('teachers'));
     }
 
-    public function addTeacher ($id, Request $request){
+    public function addTeacher($id, Request $request){
         try{
             $classRoomId = $id;
             $teacher = User::where('email', $request->input('email'))->first();
@@ -78,7 +72,7 @@ class ClassRoleController extends Controller
             ]);
             
             // tạo thông báo cho giáo viên đó
-            $contentNoti = 'Bạn có lời mời tham gia làm giáo viên đồng hành của lớp ' . $room->name;
+            $contentNoti = 'Giáo viên ' . auth()->user()->name . ' mời bạn làm giáo viên đồng hành của lớp ' . $room->name;
             $created_by = auth()->user()->id;
             $notification = createNotification(null, $contentNoti, 3, $created_by, $classRoomId);
 
@@ -92,11 +86,11 @@ class ClassRoleController extends Controller
         }
     }
 
-    public function acceptJoinClass($id, $teacherId, $notiId){
+    public function acceptJoinClass($id, $userId, $notiId){
         $classRoom = ClassRoom::find($id);
 
         // cập nhật status thành đồng ý tham gia lớp
-        $classRoom->users()->updateExistingPivot($teacherId, ['status' => 3]);
+        $classRoom->users()->updateExistingPivot($userId, ['status' => 3]);
 
         // cập nhật trang thái thông báo tham gia lớp
         Notification::where('id', $notiId)
@@ -105,20 +99,20 @@ class ClassRoleController extends Controller
         return redirect()->back()->with('success', 'Tham gia lớp học thành công');
     }
 
-    public function rejectJoinClass($id, $teacherId, $notiId)
+    public function rejectJoinClass($id, $userId, $notiId)
     {
         try{
             $classRoom = ClassRoom::find($id);    
-            $teacher = User::find($teacherId);
+            $user = User::find($userId);
             
             // xóa giáo viên này khỏi lớp
-            $classRoom->users()->detach($teacher);
+            $classRoom->users()->detach($user);
 
              // cập nhật trang thái thông báo tham gia lớp
             Notification::where('id', $notiId)
                         ->update(['is_accept' => 1]);
 
-            return redirect()->back()->with('success', 'Từ chối tham gia lớp thành công');
+            return redirect()->back()->with('success', 'Đã từ chối tham gia lớp thành công');
         }catch(Exception $e){
             Log::info("Error: " . $e->getMessage());
             return redirect()->back()->with('error', 'Từ chối tham gia lớp thất bại');

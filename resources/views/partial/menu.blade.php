@@ -131,6 +131,4 @@
             $('#leaveClassModal').addClass('hidden');
         });
     });
-
-
 </script>

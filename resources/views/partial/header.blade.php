@@ -25,12 +25,15 @@
             </li>
 
             <li class="relative">
-                <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple">
+                <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple" id="notificationIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-blue-400">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                    </svg>                           
-                    <span aria-hidden="true" class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full"></span>
-                </button>
+                    </svg>
+                    <span id="notificationCount" class="absolute top-0 right-0 transform translate-x-2 -translate-y-2 inline-block w-4 h-4 text-xs text-white bg-red-500 rounded-full">{{ $notificationCount }}</span>
+                </button>                               
+                <div id="notificationDropdown" class="dropdown-content absolute left-1/2 transform -translate-x-1/2 mt-3 w-[25rem] bg-gray-50 rounded-md shadow-xl hidden">
+                    @include('users.notis.show-noti')
+                </div>
             </li>
             
             <li class="relative">
@@ -114,6 +117,31 @@
                 $('.icon-down').toggleClass('hidden');
                 $('.icon-up').toggleClass('hidden');
             }
+        });
+
+        // mở drop thông báo
+        $('#notificationIcon').on('click', function(event){
+            event.stopPropagation();
+            $('#notificationDropdown').toggleClass('hidden');
+        });
+
+        // ấn vào window sẽ đóng drop thông báo
+        $(window).on('click', function() {
+            $('#notificationDropdown').addClass('hidden');
+         });
+
+        // đóng drop thông báo
+        $('#notificationDropdown').on('click', function(event){
+            event.stopPropagation();
+        });
+
+        // show số lượng thông báo
+        $("#notificationIcon").on("click", function() {
+            // Cập nhật số lượng thông báo về 0
+            var notificationCount = 0;
+
+            // Cập nhật nội dung của thẻ <span> tương ứng
+            $("#notificationCount").text(notificationCount);
         });
     });
 </script>

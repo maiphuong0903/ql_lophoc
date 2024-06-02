@@ -14,6 +14,7 @@ class NewsFeedController extends Controller
     {
         $newsFeeds = NewsFeed::with(['author', 'comments.user'])->where('class_room_id', $id)->withCount('comments')->get();
         $user_id = auth()->user()->id;
+        // lấy ra tất cả thông báo người này đã tạo
         $createdNotifications = Notification::where('created_by', $user_id)->where('type', 1);
 
         // Lấy tất cả các thông báo được gửi đến cho người dùng

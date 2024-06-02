@@ -4,10 +4,10 @@
 
 @section('content')
     @include('partial.toast-message')
-    <div class="border px-5 py-5 bg-white font-medium fixed top-16 w-full mt-2">
+    <div class="border px-5 py-5 bg-white font-medium">
         <h1>Vai trò lớp</h1>
     </div>
-    <div class="mt-24 mx-8 mr-[22rem]">
+    <div class="mt-5 mx-10">
         <div class="mt-5 mb-3 grid grid-cols-11 gap-3">
             <div class="col-span-8">
                 <form action="{{ route('class.class-role', $classRoom->id) }}" method="GET" class="w-full">
@@ -83,29 +83,6 @@
             </div>
         </div>
     </div>
-
-    <div class="w-80 border border-1 p-3 bg-white fixed right-0 top-32 h-full overflow-y-auto mt-2">
-        <h1 class="font-bold">Thông báo</h1>
-        @forelse ($notis as $noti)
-            <div class="bg-blue-50 px-3 py-3 rounded-lg mt-3 notification">
-                <p class="text-[14px] font-medium">{{ $noti->content }}</p>
-                <p class="text-gray-500 text-[12px]">{{ date('d/m/Y H:i', strtotime($noti->created_at)) ?? '' }}</p>
-                @if ($noti->is_accept == 0)              
-                    <div class="flex gap-5 items-center justify-center mt-2 text-sm">
-                        <button type="submit" data-class-room-id="{{ $classRoom->id }}" data-teacher-id="{{ auth()->user()->id }}" data-noti-id="{{ $noti->id }}" data-action="accept-notification" class="action-button bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-300">
-                            Đồng ý
-                        </button>
-                        <button type="submit" data-class-room-id="{{ $classRoom->id }}" data-teacher-id="{{ auth()->user()->id }}" data-noti-id="{{ $noti->id }}" data-action="reject-notification" class="action-button bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-300">
-                            Từ chối
-                        </button>
-                    </div>
-                @endif
-            </div>
-        @empty
-            <h1 class="text-[15px] font-medium">Lời mời quản trị: 0</h1>
-            <p class="text-[14px] text-gray-500 py-5">Không có lời mời nào. Bạn có thể gửi lời mời bằng cách ấn <span class="font-medium text-blue-500"><a href="">Thêm giáo viên</a></span></p>
-        @endforelse
-    </div>
 @stop
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
 <script>
@@ -136,50 +113,6 @@
         // Đóng form xóa giáo viên khỏi lớp
         $('[data-modal-toggle="deleteModal"]').click(function(){
             $('#deleteModal').addClass('hidden');
-        });
-
-        // ajax đồng ý hay từ chối tham gia lớp học
-        $('.action-button').on('click', function() {
-            let action = $(this).data('action');
-            let classRoomId = $(this).data('class-room-id');
-            let teacherId = $(this).data('teacher-id');
-            let notiId = $(this).data('noti-id');
-            // đồng ý tham gia lớp học
-            if (action === 'accept-notification'){
-                let acceptUrl = '{{ route('class.class-role.acceptJoinClass', [':id', ':teacherId', ':notiId']) }}';
-                acceptUrl = acceptUrl.replace(':id', classRoomId).replace(':teacherId', teacherId).replace(':notiId', notiId);
-                $.ajax({
-                    url: acceptUrl,
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                    },
-                    success: function(response) {
-                        
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            }
-            // từ chối tham gia lớp học
-            else if(action === 'reject-notification'){
-                let rejectUrl = '{{ route('class.class-role.rejectJoinClass', [':id', ':teacherId', ':notiId']) }}';
-                rejectUrl = rejectUrl.replace(':id', classRoomId).replace(':teacherId', teacherId).replace(':notiId', notiId);
-                $.ajax({
-                    url: rejectUrl,
-                    method: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                    },
-                    success: function(response) {
-                        
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            }
         });
     });
 

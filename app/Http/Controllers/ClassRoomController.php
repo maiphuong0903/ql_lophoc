@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ClassRoomRequest;
 use App\Models\ClassRoom;
+use App\Models\Notification;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+
+use function App\Helpers\createNotification;
+use function App\Helpers\sendNotificationToUser;
 
 class ClassRoomController extends Controller
 {
@@ -24,7 +28,7 @@ class ClassRoomController extends Controller
                         });
                     })
                     ->get();
-      
+
         return view('classes.index', compact('classRoom'));
     }
 
@@ -115,22 +119,77 @@ class ClassRoomController extends Controller
     }
 
     public function joinClassRoomStore(Request $request){
-       $classRoom = ClassRoom::where('code', $request->code)->first();
-
+        $classRoom = ClassRoom::where('code', $request->code)->first();
+        
         if (!$classRoom) {
            return redirect()->back()->with('error', 'Không tồn tại lớp học này');
         }
 
         $student = User::find(auth()->user()->id);
-       
-        if ($classRoom->users()->where('user_id', $student->id)->exists()) {
 
-            return redirect()->route('class')->with('error', 'Bạn đã tham gia lớp học này');
+        if ($classRoom->users()->where('user_id', $student->id)->where('status', '1')->exists()) {
+
+            return redirect()->route('class')->with('status', 'Bạn đã gửi lời mời tham gia lớp học này');
         } 
 
-        $classRoom->users()->attach($student->id, ['content_role' => 'Học sinh lớp']);
+        if ($classRoom->users()->where('user_id', $student->id)->where('status', '3')->exists()) {
 
-        return redirect()->route('class')->with('success', 'Tham gia lớp học thành công');
+            return redirect()->route('class')->with('error', 'Bạn đã tham gia lớp này');
+        } 
+
+        // gửi lời mời muốn tham gia vào lớp cho giáo viên
+        $classRoom->users()->attach($student->id, [
+            'content_role' => 'Học sinh lớp', 
+            'status' => 1,
+        ]);
+
+         // tạo thông báo gửi cho giáo viên lớp đó
+         $contentNoti = '<strong>' . $student->name . '</strong> muốn tham gia lớp của bạn';
+         $created_by = auth()->user()->id;
+         $classRoomId = $classRoom->id;
+         $notification = createNotification(null, $contentNoti, 4, $created_by, $classRoomId);
+
+         // gửi thông báo cho giáo viên đó
+         $teacher = ClassRoom::find($classRoomId, ['created_by']);
+        sendNotificationToUser([$teacher->created_by], $notification);
+
+        return redirect()->route('class')->with('success', 'Gửi lời mời tham gia lớp học thành công');  
+    }
+
+    public function joinClassRoomUpdate(Request $request){
+        $action = $request->input('action');
+        $userIds = $request->input('user_ids');
+        $notiIds = $request->input('noti_ids');
+        // Lấy danh sách các thông báo cùng với lớp học tương ứng
+        $notifications = Notification::whereIn('id', $notiIds)->get();
+        if($action == 'accept'){
+            foreach ($notifications as $notification) {
+                $studentId = $notification->created_by;
+                $classRoomId = $notification->class_room_id;
+                $classRoom = ClassRoom::find($classRoomId);
+
+                // Cập nhật trạng thái chấp nhận
+                $classRoom->users()->updateExistingPivot($studentId, ['status' => 3]);
+    
+                // Cập nhật trạng thái thông báo thành đã chấp nhận hoặc từ chối
+                $notification->update(['is_accept' => 1]);
+            }
+        }else if ($action == 'reject') {
+            foreach ($userIds as $userId) {
+                foreach ($notifications as $notification) {
+                    $studentId = $notification->created_by;
+                    $classRoomId = $notification->class_room_id;
+                    $classRoom = ClassRoom::find($classRoomId);
+
+                    // xóa user đó khỏi lớp
+                    $classRoom->users()->detach($userId);
         
+                    // Cập nhật trạng thái thông báo thành đã chấp nhận hoặc từ chối
+                    $notification->update(['is_accept' => 1]);
+                }
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Thành công']);
     }
 }

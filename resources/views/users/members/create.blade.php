@@ -14,7 +14,7 @@
             <form action="{{ route('class.student.addStudent', $classRoom->id) }}" method="post">
                 @csrf
                 <input type="text" name="email" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50" placeholder="Nhập email đăng nhập của học sinh...">
-                <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Thêm vào lớp</button>
+                <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Mời học sinh tham gia lớp</button>
             </form>
         </div>
     </div>
