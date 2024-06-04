@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdminClassController;
+use App\Http\Controllers\AdminNotiController;
+use App\Http\Controllers\AdminStudentController;
+use App\Http\Controllers\AdminTeacherController;
 use App\Http\Controllers\ClassRoleController;
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeWorkController;
 use App\Http\Controllers\NewsFeedController;
@@ -124,5 +129,31 @@ Route::prefix('class')->group(function () {
     // noti
     Route::post('{id}/noti/store', [NotiController::class, 'store'])->name('class.noti.store');
     Route::delete('{classId}/noti/{notiId}/destroy', [NotiController::class, 'destroy'])->name('class.noti.destroy');
+
+});
+
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::prefix('admin')->group(function () {
+    // teacher
+    Route::get('teacher', [AdminTeacherController::class, 'index'])->name('admin.teacher');
+    Route::get('teacher/create', [AdminTeacherController::class, 'create'])->name('admin.teacher.create');
+    Route::post('teacher/store', [AdminTeacherController::class, 'store'])->name('admin.teacher.store');
+    Route::get('teacher/{id}/edit', [AdminTeacherController::class, 'edit'])->name('admin.teacher.edit');
+    Route::put('teacher/{id}/update', [AdminTeacherController::class, 'update'])->name('admin.teacher.update');
+    Route::delete('teacher/{id}/delete', [AdminTeacherController::class, 'delete'])->name('admin.teacher.delete');
+    
+    // class
+    Route::get('class', [AdminClassController::class, 'index'])->name('admin.class');
+
+    // student
+    Route::get('student', [AdminStudentController::class, 'index'])->name('admin.student');
+    Route::get('student/create', [AdminStudentController::class, 'create'])->name('admin.student.create');
+    Route::post('student/store', [AdminStudentController::class, 'store'])->name('admin.student.store');
+    Route::delete('student/{id}/delete', [AdminStudentController::class, 'delete'])->name('admin.student.delete');
+
+    // noti
+    Route::get('noti', [AdminNotiController::class, 'index'])->name('admin.noti');
+    Route::post('noti/{notiId}/update-status', [AdminNotiController::class, 'updateSatusNoti'])->name('admin.noti.update-status-noti');
+    Route::delete('noti/{id}/delete', [AdminNotiController::class, 'delete'])->name('admin.noti.delete');
 
 });

@@ -65,25 +65,16 @@ class StudentController extends Controller
             if ($room->users()->where('user_id', $student->id)->where('status', '3')->exists()) {
                 return redirect()->back()->with('error', $error_message);
             } 
-    
-            // gửi lời mời tham gia vào lớp cho học sinh
+
             $room->users()->attach($student->id, [
                 'content_role' => 'Học sinh lớp', 
-                'status' => 2,
+                'status' => 3,
             ]);
-    
-            // tạo thông báo cho học sinh đó
-            $contentNoti = 'Giáo viên ' . auth()->user()->name . ' mời bạn tham gia lớp ' . $room->name;
-            $created_by = auth()->user()->id;
-            $notification = createNotification(null, $contentNoti, 2, $created_by, $classRoomId);
- 
-            // gửi thông báo cho giáo viên đó
-            sendNotificationToUser([$student->id], $notification);
 
-            return redirect()->back()->with('success', 'Gửi lời mời tham gia lớp thành công');
+            return redirect()->back()->with('success', 'Thêm học sinh vào lớp thành công');
         }catch(Exception $e){
             Log::info("ERROR: " . $e->getMessage());
-            return redirect()->back()->with('error', 'Gửi lời mời tham gia lớp thất bại');
+            return redirect()->back()->with('error', 'Thêm học sinh vào lớp thất bại');
         }
     }
 

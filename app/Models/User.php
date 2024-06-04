@@ -91,7 +91,7 @@ class User extends Authenticatable
 
     public function created_by_notification(): HasMany
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(Notification::class, 'created_by');
     }
 
     public function notifications(): BelongsToMany

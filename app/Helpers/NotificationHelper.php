@@ -4,7 +4,7 @@ namespace App\Helpers;
 use App\Models\Notification;
 
 if (!function_exists('createNotification')) {
-    function createNotification($title = null, $content, $type, $created_by, $classId)
+    function createNotification($title = null, $content, $type, $created_by, $classId = null)
     {
         $notification = new Notification();
         $notification->title = $title;

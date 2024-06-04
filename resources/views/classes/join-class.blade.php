@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Members')
+@section('title', 'WindClassRoom')
 
 @section('content')
     <div class="min-h-screen flex items-center justify-center bg-blue-100">

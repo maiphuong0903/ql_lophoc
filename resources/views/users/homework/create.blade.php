@@ -1,6 +1,6 @@
 @extends('layouts.class-info')
 
-@section('title', 'Members')
+@section('title', 'WindClassRoom')
 
 @section('content')
     @include('partial.toast-message')

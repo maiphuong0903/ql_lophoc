@@ -1,6 +1,6 @@
 @extends('layouts.class-info')
 
-@section('title', 'Members')
+@section('title', 'WindClassRoom')
 
 @section('content')
     @include('partial.toast-message')
@@ -79,7 +79,7 @@
                      <div class="flex flex-1 justify-between items-center px-2cursor-pointer">
                          <a href="{{ route('class.document.show', ['id' => $classRoom->id, 'documentId' => $document->id]) }}" class="text-gray-950 cursor-pointer hover:underline hover:text-blue-500">{{ $document->document_url }}</a>          
                          <div class="flex gap-5 items-center">
-                             <p class="text-[14px]">Ngày tạo: {{ date('d/m/Y H:i', strtotime($document->created_at)) ?? '' }}</p>
+                             <p class="text-[14px]">Ngày tạo: {{ $document->created_at ? date('d/m/Y H:i', strtotime($document->created_at)) : '' }}</p>
                              @if (auth()->user()->role == 2)          
                                  <div class="relative">
                                      <button class="flex items-center menu-file-toggle">

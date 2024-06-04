@@ -1,6 +1,6 @@
 @extends('layouts.class-info')
 
-@section('title', 'Members')
+@section('title', 'WindClassRoom')
 
 @section('content')
 <div class="mx-auto py-10 px-36">

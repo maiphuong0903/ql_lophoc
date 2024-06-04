@@ -1,6 +1,6 @@
 @extends('layouts.class-info')
 
-@section('title', 'Members')
+@section('title', 'WindClassRoom')
 
 @section('content')
     <div class="bg-gray-50 min-h-[calc(100vh-65px)]">

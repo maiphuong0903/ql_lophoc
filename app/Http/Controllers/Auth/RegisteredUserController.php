@@ -34,7 +34,6 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'max:255'],
             'email' => ['required', 'email', 'unique:'.User::class],
             'password' => ['required', Rules\Password::defaults()],
-            'role' => ['required']
         ], [
             'name.required' => 'Vui lòng nhập họ và tên',
             'name.max' => 'Trường tên không được vượt quá 255 ký tự.',
@@ -42,7 +41,6 @@ class RegisteredUserController extends Controller
             'email.email' => 'Email không hợp lệ.',
             'email.unique' => 'Email đã tồn tại.',
             'password.required' => 'Vui lòng nhập mật khẩu',
-            'role.required' => 'Vui lòng chọn vai trò'
         ]);
         
 
@@ -50,7 +48,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role
+            'role' => 3
         ]);
 
         event(new Registered($user));

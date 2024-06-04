@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Members')
+@section('title', 'WindClassRoom')
 
 @section('content')
     @include('partial.header')

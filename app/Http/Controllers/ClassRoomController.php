@@ -57,8 +57,21 @@ class ClassRoomController extends Controller
 
             $classRoom->users()->attach(auth()->user()->id, ['content_role' => 'Chủ sở hữu']);
 
+            // tạo thông báo 
+            $title = 'Bạn có 1 thông báo mới';
+            $content = 'Giáo viên ' . auth()->user()->name . ' đã tạo 1 lớp học tên là ' . $classRoom->name;
+            $created_by = auth()->user()->id;
+
+            $notification = createNotification($title, $content, 2, $created_by);
+
+            // gửi thông báo cho tất cả tài khoản admin
+            $admin = User::where('role', '1');
+
+            sendNotificationToUser($admin, $notification);
+            
             return redirect()->route('class')->with('success', 'Tạo lớp học thành công');
         }catch(Exception $e){
+            Log::info("Error: " . $e->getMessage());
             return redirect()->back()->with('error', 'Tạo lớp học không thành công');
         }
     }

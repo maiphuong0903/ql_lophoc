@@ -28,18 +28,6 @@
                 <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
             @enderror
         </div>
-        <div class="mb-7">
-            <label class="mb-2 block text-md font-semibold">Vai trò</label>
-            <select name="role" id="" class="cursor-pointer block w-full rounded-md border border-gray-300 focus:border-blue-300 focus:outline-none focus:ring-1 focus:ring-blue-300 py-1 px-2">
-                <option value="">Chọn vai trò</option>
-                <option value="2" {{ old('role') == '2' ? 'selected' : '' }}>Giáo viên</option>
-                <option value="3" {{ old('role') == '3' ? 'selected' : '' }}>Học sinh</option>
-                <option value="1" {{ old('role') == '1' ? 'selected' : '' }}>Lãnh đạo</option>
-            </select>
-            @error('role')
-                <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
-            @enderror
-        </div>
         <div class="mb-3">
             <button
                 class="mb-1.5 block w-full text-center text-white bg-blue-600 hover:bg-blue-700 px-2 py-1.5 rounded-md">Đăng ký</button>

@@ -1,6 +1,6 @@
 @extends('layouts.class-info')
 
-@section('title', 'Members')
+@section('title', 'WindClassRoom')
 
 @section('content')
     <div class="border border-1 px-5 py-5 bg-white font-medium fixed top-16 w-full overflow-y-auto z-10">

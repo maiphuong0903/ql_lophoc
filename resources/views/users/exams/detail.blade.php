@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Members')
+@section('title', 'WindClassRoom')
 
 @section('content')
     <header class="bg-white border-b py-5 px-5 w-full fixed top-0">
