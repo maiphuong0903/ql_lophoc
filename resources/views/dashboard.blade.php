@@ -6,57 +6,51 @@
     <div class="mx-10 py-7">
         {{-- thống kê --}}
         <div class="grid gap-6 mb-8 grid-cols-3">
-            <!-- Card -->
-            <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                <div class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
-                        </path>
-                    </svg>
+
+            <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+                <div class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+                    </svg>                                            
                 </div>
                 <div>
-                    <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
+                    <p class="mb-2 text-md font-medium text-gray-600">
                         Giáo viên
                     </p>
-                    <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        6389
+                    <p class="text-lg font-semibold text-gray-700">
+                        {{ $teachers }}
                     </p>
                 </div>
             </div>
-            <!-- Card -->
-            <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                <div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
-                            clip-rule="evenodd"></path>
-                    </svg>
+  
+            <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+                <div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    </svg>                                            
                 </div>
                 <div>
-                    <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
+                    <p class="mb-2 text-md font-medium text-gray-600">
                         Lớp học
                     </p>
-                    <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        $ 46,760.89
+                    <p class="text-lg font-semibold text-gray-700">
+                        {{ $classrooms }}
                     </p>
                 </div>
             </div>
-            <!-- Card -->
-            <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-                <div class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z">
-                        </path>
-                    </svg>
+
+            <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+                <div class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>                                                  
                 </div>
                 <div>
-                    <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
+                    <p class="mb-2 text-md font-medium text-gray-600">
                         Học sinh
                     </p>
-                    <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                        376
+                    <p class="text-lg font-semibold text-gray-700">
+                        {{ $students }}
                     </p>
                 </div>
             </div>

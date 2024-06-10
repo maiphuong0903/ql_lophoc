@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('answer');
             $table->text('comment')->nullable();
-            $table->integer('score')->nullable();
+            $table->float('score')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('home_work_id');
             $table->timestamps();

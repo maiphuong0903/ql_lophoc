@@ -28,7 +28,7 @@ class ClassRoomController extends Controller
                         });
                     })
                     ->get();
-
+        
         return view('classes.index', compact('classRoom'));
     }
 

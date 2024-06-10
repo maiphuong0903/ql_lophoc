@@ -58,14 +58,6 @@
                         <span class="ml-4">Bộ câu hỏi</span>
                     </a>
                 </li>
-                <li class="px-4 py-1">
-                    <a class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl" href="">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-library" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="4" y="4" width="16" height="16" rx="2" /><line x1="12" y1="8" x2="12" y2="16" /><line x1="8" y1="12" x2="16" y2="12" />
-                        </svg>                                                                                    
-                        <span class="ml-4">Kho đề kiểm tra</span>
-                    </a>
-                </li>
             @endif
             <li class="px-4 py-1">
                 <a href="{{ route('class.exams', $classRoom->id) }}" class="inline-flex items-center w-full text-md text-gray-700 font-semibold transition-colors duration-150 px-2 py-2 hover:bg-gray-100 hover:rounded-xl">

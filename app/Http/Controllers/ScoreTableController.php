@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\ScoreTableExport;
 use App\Models\ClassRoom;
-use App\Models\HomeWork;
+use App\Models\Exam;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,12 +15,31 @@ class ScoreTableController extends Controller
     public function index(Request $request){
         $classRoom = ClassRoom::find($request->id);
         $homeworks = $classRoom->homeworks;
-        $students = User::filter($request->all())->whereHas('answerHomeworks', function ($query) use ($classRoom) {
+        $exams = Exam::where('class_room_id', $classRoom->id)->get();
+        $totalItems = count($homeworks) + count($exams);
+        $students = User::filter($request->all())
+                    ->whereHas('answerHomeworks', function ($query) use ($classRoom) {
                         $query->where('class_room_id', $classRoom->id)
-                            ->whereNotNull('users_answers_home_works.score');
-                    })->paginate(10);
+                              ->whereNotNull('score');
+                    })
+                    ->orWhereHas('answerExams', function ($query) use ($classRoom) {
+                        $query->where('class_room_id', $classRoom->id);
+                    })
+                    ->with(['answerHomeworks' => function ($query) use ($classRoom) {
+                        $query->where('class_room_id', $classRoom->id);
+                    }])
+                    ->with(['answerExams' => function ($query) use ($classRoom) {
+                        $query->where('class_room_id', $classRoom->id);
+                    }])
+                    ->paginate(10);
 
-        return view('users.scores.index', compact('students', 'homeworks'));
+        foreach ($students as $student) {         
+            $student->totalScore = $student->calculateTotalScore();
+            // Tính điểm trung bình và làm tròn đến 2 chữ số thập phân
+            $averageScore = round($student->totalScore / $totalItems, 2);
+        }
+
+        return view('users.scores.index', compact('students', 'homeworks', 'exams', 'averageScore'));
     }
 
     public function exportScoreStudent(Request $request){

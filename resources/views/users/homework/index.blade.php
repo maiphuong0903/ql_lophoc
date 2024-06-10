@@ -81,7 +81,7 @@
                         @endif
                         <div class="flex gap-5 items-center">
                             @if (auth()->user()->role == 2)                              
-                                <p class="text-[14px] font-medium">0/1 Đã làm</p>
+                                <p class="text-[14px] font-medium">{{ $homework->assignedUsers()->count() }}/{{ $totalStudents }} Đã làm</p>
                                 <div class="relative">
                                     <button class="flex items-center menu-homework-toggle">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

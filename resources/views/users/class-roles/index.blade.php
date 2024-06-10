@@ -56,13 +56,9 @@
                         <tr class="odd:bg-white even:bg-gray-50 border-b hover:bg-blue-100">
                             <td class="px-12 py-4">{{ ($teachers->currentPage() - 1) * $teachers->perPage() + $key+1 }}</td>
                             <td class="px-6 py-4">{{ $teacher->name }}</td>
-                            <td class="px-6 py-4">  
-                                @foreach($teacher->classRooms as $classRoom)
-                                    {{ $classRoom->pivot->content_role }}
-                                @endforeach
-                            </td>
-                            <td class="px-6 py-4">0/0</td>
-                            <td class="px-6 py-4">0/0</td>
+                            <td class="px-6 py-4">{{ $teacher->classRooms->first()->pivot->content_role }}</td>
+                            <td class="px-8 py-4">{{ $totalDocuments }}/{{ $totalDocuments }}</td>
+                            <td class="px-8 py-4">{{ $totalHomeWork }}/{{ $totalHomeWork }}</td>
                             <td class="px-6 py-4">0/0</td>
                             <td class="px-10 py-4 cursor-pointer">
                                 @if($teacher->id !== $classRoom->created_by)

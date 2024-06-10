@@ -28,11 +28,11 @@ class Question extends Model
         return $this->belongsTo(Topic::class);
     }
 
-    public function exam() : BelongsToMany
+    public function exams() : BelongsToMany
     {
         return $this->belongsToMany(
             Exam::class, 
-            'exam_question', 
+            'exams_questions', 
             'question_id', 
             'exam_id',
         );

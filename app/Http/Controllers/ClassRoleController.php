@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exports\TeacherExport;
 use App\Models\ClassRoom;
+use App\Models\Document;
+use App\Models\HomeWork;
 use App\Models\Notification;
 use App\Models\User;
 use Carbon\Carbon;
@@ -28,7 +30,7 @@ class ClassRoleController extends Controller
         ->whereNull('deleted_at')
         ->where('role', 2);
 
-        
+        // lấy ra người tạo ra lớp này
         $creatorQuery = User::whereHas('created_by_class_room', function ($query) use ($classRoomId) {
             $query->where('class_rooms.id', $classRoomId);
         });
@@ -41,7 +43,17 @@ class ClassRoleController extends Controller
         $request->session()->put('search', $request->all());
         $teachers->appends($request->all());  
 
-        return view('users.class-roles.index', compact('teachers'));
+        // lấy ra số lượng tài liệu giáo viên đã tạo trong lớp
+        $totalDocuments = Document::whereHas('author', function ($query) {
+            $query->where('role', '2');
+        })->where('class_room_id', $classRoomId)->count();
+
+        // lấy ra số lượng bài tập giáo viên đã tạo trong lớp
+        $totalHomeWork = HomeWork::whereHas('author', function ($query) {
+            $query->where('role', '2');
+        })->where('class_room_id', $classRoomId)->count();
+
+        return view('users.class-roles.index', compact('teachers', 'totalDocuments', 'totalHomeWork'));
     }
 
     public function addTeacher($id, Request $request){
@@ -54,7 +66,11 @@ class ClassRoleController extends Controller
             if (!$teacher) {
                return redirect()->back()->with('error', 'Không tồn tại giáo viên này');
             }
-    
+            // Kiểm tra vai trò của người dùng
+            if ($teacher->role == 1 && $teacher->role == 3) {
+                return redirect()->back()->with('error', 'Người này không phải giáo viên');
+            }
+
             if ($room->users()->where('user_id', $teacher->id)->where('status', '2')->exists()) {
     
                 return redirect()->back()->with('status', 'Giáo viên này đã được gửi lời mời tham gia lớp học');

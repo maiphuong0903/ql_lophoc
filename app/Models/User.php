@@ -136,13 +136,36 @@ class User extends Authenticatable
             'users_answers_exams',
             'user_id',
             'exam_id',
-            'answer',
-            'score'
-        );
+        )->withPivot('answer', 'score', 'created_at', 'updated_at', 'question_id');
     }
 
     public function created_by_document(): HasMany
     {
         return $this->hasMany(Document::class);
     }
+
+    // Tính điểm trung bình
+    public function calculateTotalScore()
+    {
+        $totalScore = 0;
+    
+        // Tính tổng điểm của các bài tập
+        foreach ($this->answerHomeworks as $answerHomework) {
+            $score = $answerHomework->pivot->score ?? 0; 
+            $totalScore += $score;        
+        }
+        // dd($totalItems);
+        // Tính tổng điểm của các bài kiểm tra
+        $examScores = $this->answerExams->groupBy('pivot.exam_id'); 
+       
+        foreach ($examScores as $examId => $answers) {
+            $score = $answers->first()->pivot->score;
+            
+            $totalScore += $score; 
+        }
+        // dd($totalScore);
+    
+        return $totalScore;
+    }
+    
 }

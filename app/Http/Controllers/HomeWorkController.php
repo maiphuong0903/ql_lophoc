@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exports\HomeWorksExport;
-use App\Models\AnswerHomeWork;
 use App\Models\ClassRoom;
 use App\Models\HomeWork;
 use App\Models\User;
@@ -33,13 +32,20 @@ class HomeWorkController extends Controller
 
         $classRooms = ClassRoom::where('created_by', auth()->user()->id)->get();
 
-        return view('users.homework.index', compact('homeworks', 'classRooms'));
+        // lấy ra tổng số học sinh của lớp
+        $totalStudents = User::whereHas('classRooms', function ($query) use ($classRoomId) {
+                $query->where('role', '3')
+                    ->where('user_class_rooms.class_room_id', $classRoomId);
+        })->count();
+
+        return view('users.homework.index', compact('homeworks', 'classRooms', 'totalStudents'));
     }
 
     public function create(){
         return view('users.homework.create');
     }
 
+    // tạo bài tập
     public function store(Request $request){
         try{
             $homework = $request->all();   
@@ -113,16 +119,34 @@ class HomeWorkController extends Controller
         }
     }
 
-    public function info(Request $request, $classId, $homeworkId){
-        $homework = HomeWork::with(['assignedUsers' => function($query) {
-            $query->whereNotNull('users_answers_home_works.answer'); 
-        }])->find($homeworkId);
+    public function info(Request $request, $classId, $homeworkId)
+    {
+        $statusAssignment = $request->get('status-assignment');
         
-        $assignedUsers = $homework->assignedUsers()->filter($request->all())->paginate(10);
-    
-        return view('users.homework.homework-info', compact('assignedUsers', 'homework'));
-    }
+        $homework = HomeWork::find($homeworkId);
 
+        if (!$homework) {
+            return redirect()->back()->with('error', 'Không tìm thấy bài tập.');
+        }
+
+        $assignedUsersQuery = $homework->assignedUsers();
+        $assignedUsersQuery = $assignedUsersQuery->filter($request->all());
+
+        if ($statusAssignment == 'notScore') {
+            $assignedUsersQuery->whereHas('answerHomeworks', function($query) {
+                $query->where('score', NULL);
+            });
+        } elseif ($statusAssignment == 'markscore') {
+            $assignedUsersQuery->whereHas('answerHomeworks', function($query) {
+                $query->where('score', '!=', NULL);
+            });
+        }
+
+        $assignedUsers = $assignedUsersQuery->paginate(10);
+
+        return view('users.homework.homework-info', compact('assignedUsers', 'homework', 'classId'));
+    } 
+ 
     public function detailHomeWork($id, $homeworkId){
         $homework = HomeWork::with('assignedUsers')->find($homeworkId);
         $isSubmitted = $homework->isSubmittedByStudent(auth()->user()->id);

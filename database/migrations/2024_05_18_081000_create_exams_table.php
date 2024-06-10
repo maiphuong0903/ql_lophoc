@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->time('time');
+            $table->integer('time')->nullable()->comment('Thời gian làm bài tính theo phút');
+            $table->date('expiration_date')->comment('Ngày hết hạn làm bài');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('class_room_id');
             $table->timestamps();

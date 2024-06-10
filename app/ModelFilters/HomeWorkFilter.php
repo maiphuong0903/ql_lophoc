@@ -40,17 +40,4 @@ class HomeWorkFilter extends ModelFilter
                 return;
         }
     }
-
-    public function statusAssignment($value){
-        switch ($value) {
-            case 'all':
-                return $this->orderBy('title', 'asc');               
-            case 'notScore':
-                return $this->whereNull('score');
-            case 'markscore':
-                return $this->whereNotNull('score');
-            default:
-                return;
-        }
-    }
 }

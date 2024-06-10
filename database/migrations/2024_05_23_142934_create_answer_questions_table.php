@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('question_id');
             $table->string('answer_content')->comment('Nội dung đáp án');
+            $table->char('answer_index', 1)->nullable()->comment('Vị trí đáp án');
             $table->boolean('is_correct')->default(false)->comment('Đáp án đúng');
             $table->timestamps();
 

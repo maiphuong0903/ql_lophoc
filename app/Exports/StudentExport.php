@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class StudentExport implements FromCollection, WithHeadings, WithMapping
+class StudentExport implements FromCollection, WithHeadings, WithMapping, WithTitle
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -37,11 +38,23 @@ class StudentExport implements FromCollection, WithHeadings, WithMapping
                 ->get();
     }
 
+    public function title(): string
+    {
+        $classRoomId = $this->request->id;
+        $className = ClassRoom::find($classRoomId)->name;
+        
+        return "Danh sách học sinh lớp $className";
+    }
+
     public function headings(): array
     {
+        $classRoomId = $this->request->id;
+        $className = ClassRoom::find($classRoomId)->name;
+
         return [
-            'Họ và tên',
-            'Email',
+            ['Danh sách học sinh lớp ' . $className],
+            [],
+            ['Họ và tên', 'Email'],
         ];
     }
 

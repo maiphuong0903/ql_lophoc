@@ -52,7 +52,11 @@ class StudentController extends Controller
             if (!$student) {
                return redirect()->back()->with('error', 'Không tồn tại học sinh này');
             }
-            
+
+            // Kiểm tra vai trò của người dùng
+            if ($student->role == 2 || $student->role == 1) {
+                return redirect()->back()->with('error', 'Người này không phải là học sinh');
+            }
             if ($room->users()->where('user_id', $student->id)->where('status', '2')->exists()) {
     
                 return redirect()->back()->with('status', 'Học sinh này đã được gửi lời mời tham gia lớp học');

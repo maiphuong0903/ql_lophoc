@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('users_answers_exams', function (Blueprint $table) {
             $table->id();
             $table->text('answer');
-            $table->integer('score')->default(0);
+            $table->float('score')->nullable();
+            $table->integer('question_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('exam_id');
             $table->timestamps();

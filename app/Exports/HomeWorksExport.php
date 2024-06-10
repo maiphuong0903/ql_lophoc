@@ -3,13 +3,13 @@
 namespace App\Exports;
 
 use App\Models\HomeWork;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class HomeWorksExport implements FromCollection, WithHeadings, WithMapping
+class HomeWorksExport implements FromCollection, WithHeadings, WithMapping, WithTitle
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -37,13 +37,23 @@ class HomeWorksExport implements FromCollection, WithHeadings, WithMapping
         return $filteredHomeworks;
     }
 
+    public function title(): string
+    {
+        $homeWorkId = $this->request->homeworkId;
+        $homeWorkName = HomeWork::find($homeWorkId)->title;
+        
+        return "Danh sách điểm bài tập $homeWorkName";
+    }
+    
     public function headings(): array
     {
+        $homeWorkId = $this->request->homeworkId;
+        $homeWorkName = HomeWork::find($homeWorkId)->title;
+        
         return [
-            'Họ và tên',
-            'Bài tập',
-            'Điểm',
-            'Ngày nộp bài',
+            ['Danh sách điểm bài tập ' . $homeWorkName],
+            [],
+            [ 'Họ và tên', 'Điểm'],
         ];
     }
 
@@ -54,9 +64,7 @@ class HomeWorksExport implements FromCollection, WithHeadings, WithMapping
 
         return [
             $user->name,
-            $homework->title,
             $score,
-            Carbon::parse($user->pivot->created_at)->format('d/m/Y H:i'),
         ];
     }
 }

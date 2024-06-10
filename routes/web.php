@@ -107,12 +107,21 @@ Route::prefix('class')->group(function () {
     Route::get('{id}/questions', [QuestionController::class, 'index'])->name('class.questions');
     Route::post('{id}/questions/store', [QuestionController::class, 'store'])->name('class.questions.store');
     Route::get('{id}/questions/{questionId}/edit', [QuestionController::class, 'edit'])->name('class.questions.edit');
-    Route::put('{id}/questions/update', [QuestionController::class, 'update'])->name('class.questions.update');
+    Route::put('{id}/questions/{questionId}/update', [QuestionController::class, 'update'])->name('class.questions.update');
     Route::delete('{id}/questions/destroy', [QuestionController::class, 'destroy'])->name('class.questions.destroy');
 
     // exam
     Route::get('{id}/exams', [ExamController::class, 'index'])->name('class.exams');
+    Route::get('{id}/exams/create', [ExamController::class, 'create'])->name('class.exams.create');
     Route::post('{id}/exams/store', [ExamController::class, 'store'])->name('class.exams.store');
+    Route::get('{id}/exams/{examId}/edit', [ExamController::class, 'edit'])->name('class.exams.edit');
+    Route::put('{id}/exams/{examId}/update', [ExamController::class, 'update'])->name('class.exams.update');
+    Route::get('{id}/exams/{examId}/show', [ExamController::class, 'show'])->name('class.exams.show');
+    Route::delete('{id}/exams/{examId}/delete', [ExamController::class, 'delete'])->name('class.exams.delete');
+    Route::get('{id}/exams/{examId}/printExcel', [ExamController::class, 'printExcel'])->name('class.exams.printExcel');
+    Route::get('{id}/exams/{examId}/student/{studentId}/detail', [ExamController::class, 'detail'])->name('class.exams.detail');
+    Route::get('{id}/exams/{examId}/detailExam', [ExamController::class, 'detailExam'])->name('class.exams.detailExam');
+    Route::post('{id}/exams/{examId}/student/{studentId}/submit', [ExamController::class, 'submitExam'])->name('class.exams.submitExam');
 
     // class role - teacher
     Route::get('{id}/teacher', [ClassRoleController::class, 'index'])->name('class.class-role');

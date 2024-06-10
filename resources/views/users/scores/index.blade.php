@@ -58,7 +58,10 @@
                         @foreach ($homeworks as $homework)
                             <th scope="col" class="px-6 py-5">{{ $homework->title }}</th>
                         @endforeach
-                        <th scope="col" class="px-6 py-5 w-[150px]">Trung bình</th>
+                        @foreach ($exams as $exam)
+                            <th scope="col" class="px-6 py-5">{{ $exam->title }}</th>
+                        @endforeach
+                        <th scope="col" class="px-6 py-5 w-[180px]">Điểm trung bình</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,11 +72,14 @@
                             @foreach ($homeworks as $homework)
                                 <td class="px-6 py-4">{{ $student->answerHomeworks->where('id', $homework->id)->first()->pivot->score ?? 'Chờ chấm' }}</td>
                             @endforeach
-                            <td class="px-6 py-4">{{ $student->averageScore }}</td>
+                            @foreach ($exams as $exam)
+                                <td class="px-6 py-4">{{ $student->answerExams->where('id', $exam->id)->first()->pivot->score ?? 'Chờ chấm' }}</td>
+                            @endforeach
+                            <td class="px-16 py-4">{{ $averageScore }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center py-4">Chưa có điểm học sinh nào</td>
+                            <td colspan="{{ 2 + count($homeworks) + count($exams) }}" class="text-center py-4">Chưa có điểm học sinh nào</td>
                         </tr>
                     @endforelse   
                 </tbody>

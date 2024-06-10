@@ -13,6 +13,7 @@ class AnswerQuestion extends Model
         'question_id',
         'answer_content',
         'is_correct',
+        'answer_index'
     ];
 
     public function question()

@@ -24,14 +24,14 @@
             <div class="flex items-center gap-2 bg-blue-500 py-2 px-4 text-white rounded-md justify-center">         
                 <a href="{{ route('class.homework.info', ['id' => $classRoom->id, 'homeworkId' => $homework->id, 'status-assignment' => 'all']) }}">Tất cả</a>
             </div>
-
+        
             <div class="flex items-center gap-2 bg-gray-200 py-2 px-4 rounded-md justify-center">         
-                <a href="{{ route('class.homework.info', ['id' => $classRoom->id, 'homeworkId' => $homework->id, 'status-assignment' => 'notScore']) }}">Đã chấm</a>
+                <a href="{{ route('class.homework.info', ['id' => $classRoom->id, 'homeworkId' => $homework->id, 'status-assignment' => 'markscore']) }}">Đã chấm</a>
             </div>
-
+        
             <div class="flex items-center gap-2 bg-gray-200 py-2 px-4 rounded-md justify-center">         
-                <a href="{{ route('class.homework.info', ['id' => $classRoom->id, 'homeworkId' => $homework->id, 'status-assignment' => 'markscore']) }}">Chưa chấm</a>
-            </div>  
+                <a href="{{ route('class.homework.info', ['id' => $classRoom->id, 'homeworkId' => $homework->id, 'status-assignment' => 'notScore']) }}">Chưa chấm</a>
+            </div>   
            
             <a href="{{ route('homework.printExcel', ['id' => $classRoom->id, 'homeworkId' => $homework->id]) }}" class="border border-gray-300 flex justify-center py-2 px-4 rounded-lg bg-white cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-black text-center">

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('content');
-            $table->integer('type')->comment('1: Thông báo, 2: Gửi lời mời học sinh, 3: Gửi lời mời giáo viên, 4: Tham gia lớp');
+            $table->integer('type')->comment('1: Thông báo, 2: TB tạo lớp, 3: Gửi lời mời giáo viên, 4: Tham gia lớp');
             $table->integer('is_accept')->default(0)->comment('0: Chưa xác nhận, 1: Đã xác nhận');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('class_room_id')->nullable();

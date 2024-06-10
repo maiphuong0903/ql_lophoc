@@ -8,7 +8,7 @@
     <h1>Thành viên lớp học</h1>
 </div>
 <div class="grid grid-cols-4">
-    <div class="col-span-3 mx-10 mt-5">
+    <div class="{{ auth()->user()->role == 2 ? 'col-span-3' : 'col-span-11' }} mx-10 mt-5">
         {{-- search --}}
         <div class="mb-7 grid grid-cols-11 gap-3">
             <div class="{{ auth()->user()->role == 2 ? 'col-span-8' : 'col-span-11' }}">
@@ -50,7 +50,6 @@
                         <th scope="col" class="px-6 py-5">Số thứ tự</th>
                         <th scope="col" class="px-6 py-5">Họ và tên</th>
                         <th scope="col" class="px-6 py-5">Email</th>
-                        <th scope="col" class="px-6 py-5">Bài đã làm</th>
                         @if (auth()->user()->role == 2)                   
                             <th scope="col" class="px-6 py-5 w-[120px]">Thao tác</th>
                         @endif
@@ -62,7 +61,6 @@
                             <td class="px-12 py-4">{{ ($students->currentPage() - 1) * $students->perPage() + $key+1 }}</td>
                             <td class="px-6 py-4">{{ $student->name }}</td>
                             <td class="px-6 py-4">{{ $student->email }}</td>
-                            <td class="px-6 py-4">0/0</td>
                             @if (auth()->user()->role == 2) 
                                 <td class="px-10 py-4 cursor-pointer">
                                     <button type="button" class="deleteStudent block text-md" data-class-room-id="{{ $classRoom->id }}" data-student-id="{{ $student->id }}" data-modal-target="deleteModal" data-modal-toggle="deleteModal">                                                                                        
@@ -87,33 +85,35 @@
             </div>
         </div>
     </div>
-    <div class="col-span-1 border-l p-3">
-        <h1 class="font-medium text-[16px] mb-3">Phê duyệt học sinh vào lớp</h1>
-    
-        <div class="action-buttons hidden flex gap-3 justify-center">
-            <button type="button" class="accept-button bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-300" data-action="accept">
-                Đồng ý
-            </button>
-            <button type="button" class="reject-button bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-300" data-action="reject">
-                Từ chối
-            </button>
-        </div>
-        <hr class="mt-3">
-        <div class="notification-list mt-3 text-sm"> 
-            @forelse ($listNoti as $noti)    
-                <div class="notification-item">
-                    <div class="flex gap-2 items-center">
-                        @if ($noti->is_accept == 0)    
-                            <input type="checkbox" class="toggle-buttons" data-id="{{ $noti->id }}" data-user-id="{{ $noti->created_by }}">
-                            <p class="text-sm">{!! $noti->content !!}</p>
-                        @endif
+    @if (auth()->user()->role == 2)      
+        <div class="col-span-1 border-l p-3">
+            <h1 class="font-medium text-[16px] mb-3">Phê duyệt học sinh vào lớp</h1>
+        
+            <div class="action-buttons hidden flex gap-3 justify-center">
+                <button type="button" class="accept-button bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-300" data-action="accept">
+                    Đồng ý
+                </button>
+                <button type="button" class="reject-button bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-4 rounded focus:outline-none focus:ring-2 focus:ring-red-300" data-action="reject">
+                    Từ chối
+                </button>
+            </div>
+            <hr class="mt-3">
+            <div class="notification-list mt-3 text-sm"> 
+                @forelse ($listNoti as $noti)    
+                    <div class="notification-item">
+                        <div class="flex gap-2 items-center">
+                            @if ($noti->is_accept == 0)    
+                                <input type="checkbox" class="toggle-buttons" data-id="{{ $noti->id }}" data-user-id="{{ $noti->created_by }}">
+                                <p class="text-sm">{!! $noti->content !!}</p>
+                            @endif
+                        </div>
                     </div>
-                </div>
-            @empty
-                <p class="text-[14px] font-light text-gray-600">Yêu cầu vào lớp sẽ được hiển thị khi có học sinh tìm kiếm lớp bạn với mã lớp <span class="text-blue-500">{{ $classRoom->code }}</span></p>
-            @endforelse
-        </div>
-    </div>     
+                @empty
+                    <p class="text-[14px] font-light text-gray-600">Yêu cầu vào lớp sẽ được hiển thị khi có học sinh tìm kiếm lớp bạn với mã lớp <span class="text-blue-500">{{ $classRoom->code }}</span></p>
+                @endforelse
+            </div>
+        </div>     
+    @endif
 </div>
 
 @stop

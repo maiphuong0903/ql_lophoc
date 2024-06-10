@@ -10,9 +10,9 @@
                 </button>
             </div>
 
-           <div class="flex gap-2 mb-10">
-                <a href="" class="w-full bg-blue-500 text-white rounded-md px-2 py-6 mt-5 hover:bg-blue-700">Chọn từ kho bài kiểm tra</a>
-                <a href="" class="w-full bg-blue-500 text-white rounded-md px-2 py-6 mt-5 hover:bg-blue-700">Tạo ngẫu nhiên bài kiểm tra</a>
+           <div class="flex gap-2 mb-10 text-center">
+                <a href="" class="w-full bg-blue-500 text-white rounded-md px-2 py-6 mt-5 hover:bg-blue-700">Chọn câu hỏi</a>
+                <a href="{{ route('class.exams.create', $classRoom->id) }}" class="w-full bg-blue-500 text-white rounded-md px-2 py-6 mt-5 hover:bg-blue-700">Tự tạo bài kiểm tra</a>
            </div>
         </div>
     </div>

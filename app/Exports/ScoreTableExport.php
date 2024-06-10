@@ -2,14 +2,16 @@
 
 namespace App\Exports;
 
+use App\Models\ClassRoom;
 use App\Models\HomeWork;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ScoreTableExport implements FromCollection, WithHeadings, WithMapping
+class ScoreTableExport implements FromCollection, WithHeadings, WithMapping, WithTitle
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -50,23 +52,35 @@ class ScoreTableExport implements FromCollection, WithHeadings, WithMapping
         }
 
         $this->homeworkTitles = $homeworks->pluck('title')->toArray();
-        dd( $homeworks->pluck('title')->toArray());
+ 
         return $users;
+    }
+
+    public function title(): string
+    {
+        $classRoomId = $this->request->id;
+        $className = ClassRoom::find($classRoomId)->name;
+        
+        return "Danh sách điểm của lớp $className";
     }
 
     public function headings(): array
     {
         $homework_titles = $this->homeworkTitles ?? [];
-        dd($homework_titles);
+        $classRoomId = $this->request->id;
+        $className = ClassRoom::find($classRoomId)->name;
+
         $headings = [
-            'Họ và tên',
+            ['Danh sách học sinh lớp ' . $className],
+            [],
+            ['Họ và tên'],
         ];
 
         foreach ($homework_titles as $title) {
             $headings[] = $title;
         }
     
-        $headings[] = 'Điểm trung bình';
+        $headings[] = ['Điểm trung bình'];
 
         return $headings;
     }
