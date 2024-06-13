@@ -20,7 +20,13 @@
     <!-- Scripts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <style>
+        .active {
+            background-color: #ebf8ff; /* Blue background */
+            color: #2b6cb0; /* Dark blue text */
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <body>

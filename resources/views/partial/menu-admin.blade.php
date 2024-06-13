@@ -1,10 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{--CSRF Token--}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>@yield('title', config('app.name', '@Master Layout'))</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Scripts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        .active {
+            background-color: #ebf8ff; 
+            color: #2b6cb0; 
+            font-weight: bold;
+        }
+    </style>
+</head>
 <aside class="z-20 hidden w-64 overflow-y-auto bg-white md:block flex-shrink-0 border-r">
     <div class="py-4 text-gray-500">
         <a class="ml-6 text-lg font-bold mt-5 text-blue-500" href="#">WindClassRoom</a>
         <ul class="mt-6">
-            <li class="relative px-6 py-3">
-                <span class="absolute inset-y-0 left-0 w-1 bg-blue-600 rounded-tr-lg rounded-br-lg"
-                    aria-hidden="true"></span>
+            <li class="relative px-6 py-3 {{ Request::is('dashboard') ? 'active' : ''}}">
                 <a class="inline-flex items-center w-full text-md font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800"
                     href="{{ route('dashboard') }}">
                     <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
@@ -18,7 +46,7 @@
             </li>
         </ul>
         <ul>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3 {{ Request::is('admin/teacher') ? 'active' : ''}}">
                 <a class="inline-flex items-center w-full text-md font-semibold transition-colors duration-150 hover:text-gray-800"
                     href="{{ route('admin.teacher') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -27,7 +55,7 @@
                     <span class="ml-4">Quản lý giáo viên</span>
                 </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3 {{ Request::is('admin/class') ? 'active' : ''}}">
                 <a class="inline-flex items-center w-full text-md font-semibold transition-colors duration-150 hover:text-gray-800"
                     href="{{ route('admin.class') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -36,7 +64,7 @@
                     <span class="ml-4">Quản lý lớp học</span>
                 </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3 {{ Request::is('admin/student') ? 'active' : ''}}">
                 <a class="inline-flex items-center w-full text-md font-semibold transition-colors duration-150 hover:text-gray-800"
                     href="{{ route('admin.student') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -45,7 +73,7 @@
                     <span class="ml-4">Quản lý học sinh</span>
                 </a>
             </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3 {{ Request::is('admin/noti') ? 'active' : ''}}">
                 <a class="inline-flex items-center w-full text-md font-semibold transition-colors duration-150 hover:text-gray-800"
                     href="{{ route('admin.noti') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

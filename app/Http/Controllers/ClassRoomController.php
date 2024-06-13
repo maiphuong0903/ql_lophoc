@@ -27,6 +27,10 @@ class ClassRoomController extends Controller
                                     ->where('status', 3);
                         });
                     })
+                    ->withCount(['users' => function ($query) use ($userId) {
+                        $query->where('status', 3); 
+                    }])
+                    
                     ->get();
         
         return view('classes.index', compact('classRoom'));

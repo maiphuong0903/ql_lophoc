@@ -33,13 +33,7 @@ class ScoreTableController extends Controller
                     }])
                     ->paginate(10);
 
-        foreach ($students as $student) {         
-            $student->totalScore = $student->calculateTotalScore();
-            // Tính điểm trung bình và làm tròn đến 2 chữ số thập phân
-            $averageScore = round($student->totalScore / $totalItems, 2);
-        }
-
-        return view('users.scores.index', compact('students', 'homeworks', 'exams', 'averageScore'));
+        return view('users.scores.index', compact('students', 'homeworks', 'exams', 'totalItems'));
     }
 
     public function exportScoreStudent(Request $request){

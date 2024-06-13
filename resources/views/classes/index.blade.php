@@ -16,7 +16,7 @@
                                 <h1 class="text-[15px] font-medium">{{ $class->name }}</h1>
                                 <p class="text-blue-400 text-[14px]">Mã lớp: {{ $class->code }}</p>
                             </div>
-                            <p class="text-gray-500 text-[14px]">Số thành viên: 0</p>
+                            <p class="text-gray-500 text-[14px]">Số học sinh: {{ $class->users_count }}</p>
                         </div>                  
                     </div>
                 </div>

@@ -75,7 +75,7 @@
                             @foreach ($exams as $exam)
                                 <td class="px-6 py-4">{{ $student->answerExams->where('id', $exam->id)->first()->pivot->score ?? 'Chờ chấm' }}</td>
                             @endforeach
-                            <td class="px-16 py-4">{{ $averageScore }}</td>
+                            <td class="px-16 py-4">{{ round($student->calculateTotalScore() / $totalItems, 2) ?? ''}}</td>
                         </tr>
                     @empty
                         <tr>
