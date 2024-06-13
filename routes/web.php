@@ -114,6 +114,8 @@ Route::prefix('class')->group(function () {
     Route::get('{id}/exams', [ExamController::class, 'index'])->name('class.exams');
     Route::get('{id}/exams/create', [ExamController::class, 'create'])->name('class.exams.create');
     Route::post('{id}/exams/store', [ExamController::class, 'store'])->name('class.exams.store');
+    Route::get('{id}/exams-random/create', [ExamController::class, 'createRandom'])->name('class.exams.createRandom');
+    Route::post('{id}/exams-random/store', [ExamController::class, 'storeRandom'])->name('class.exams.storeRandom');
     Route::get('{id}/exams/{examId}/edit', [ExamController::class, 'edit'])->name('class.exams.edit');
     Route::put('{id}/exams/{examId}/update', [ExamController::class, 'update'])->name('class.exams.update');
     Route::get('{id}/exams/{examId}/show', [ExamController::class, 'show'])->name('class.exams.show');

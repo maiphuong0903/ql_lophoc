@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ExamExport;
+use App\Http\Requests\StoreExamRandomRequest;
+use App\Http\Requests\StoreExamRequest;
 use App\Models\AnswerQuestion;
 use App\Models\ClassRoom;
 use App\Models\Exam;
@@ -48,7 +50,7 @@ class ExamController extends Controller
         return view('users.exams.index', compact('exams', 'totalStudents', 'submittedCounts', 'isSubmitted'));
     }
 
-    // tạo bài kiểm tra
+    // tạo bài kiểm tra bằng cách chọn từng câu hỏi
     public function create($id){
         $listTopic = Topic::has('questions')
                         ->with('questions')
@@ -57,7 +59,8 @@ class ExamController extends Controller
         return view('users.exams.create', compact('listTopic'));
     }
 
-    public function store($id, Request $request){
+    // tạo bài kiểm tra bằng cách chọn từng câu hỏi
+    public function store(StoreExamRequest $request, $id){
         try{
             $classRoomId = $id;
             $exam = Exam::create([
@@ -77,6 +80,40 @@ class ExamController extends Controller
             Log::info("ERROR: " . $e->getMessage());
             return redirect()->back()->with('error', 'Tạo bài kiểm tra thất bại');
         }
+    }
+
+    // tạo bài kiểm tra bằng cách random số lượng câu hỏi theo chủ đề
+    public function createRandom($id){
+        $listTopic = Topic::has('questions')
+                    ->with('questions')
+                    ->get();
+        return view('users.exams.create-random-quiz', compact('listTopic'));
+    }
+
+    // tạo bài kiểm tra bằng cách random số lượng câu hỏi theo chủ đề
+    public function storeRandom(StoreExamRandomRequest $request, $id){
+        // Create the exam
+        $exam = Exam::create([
+            'class_room_id' => $id,
+            'title' => $request->title,
+            'time' => $request->time,
+            'created_by' => auth()->user()->id,
+            'expiration_date' => $request->expiration_date,
+        ]);
+
+        // Add questions to the exam
+        foreach ($request->numQuestionsPerTopic as $topicId => $numQuestions) {
+            $questions = Question::where('topic_id', $topicId)
+                ->inRandomOrder()
+                ->take($numQuestions)
+                ->get();
+
+            foreach ($questions as $question) {
+                $exam->questions()->attach($question->id);
+            }
+        }
+
+        return redirect()->route('class.exams', $id)->with('success', 'Bài kiểm tra đã được tạo thành công.');
     }
 
     // Show danh sách học sinh làm bài kiểm tra

@@ -52,7 +52,8 @@
             @if (auth()->user()->role == 2)
                 <div class="col-span-1">
                     <div class="flex items-center gap-2 bg-blue-500 py-2 px-2 rounded-md text-white justify-center">
-                        <a href="{{ route('class.exams.create', $classRoom->id) }}">Tạo bài kiểm tra</a>
+                        <button id="openExamsForm">Tạo bài kiểm tra</button>
+                        @include('users.exams.dialog-create')
                     </div>
                 </div>
             @endif
@@ -159,6 +160,18 @@
         // Đóng form xóa học sinh khỏi lớp
         $('[data-modal-toggle="deleteModal"]').click(function(){
             $('#deleteModal').addClass('hidden');
+        });
+
+        // Mở form tạo bài kiểm tra
+        $('#openExamsForm').on('click', function() {
+            $('#examFormModal').removeClass('hidden');
+            $('#overlay').removeClass('hidden');
+        });
+
+        // Đóng form tạo bài kiểm tra
+        $('#closeExamForm').on('click', function() {
+            $('#examFormModal').addClass('hidden');
+            $('#overlay').addClass('hidden');
         });
     });
 
