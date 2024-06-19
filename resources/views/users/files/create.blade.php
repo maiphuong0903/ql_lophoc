@@ -1,3 +1,4 @@
+<!-- Modal -->
 <div id="fileFormModal" class="fixed z-20 inset-0 overflow-y-auto hidden">
     <div class="flex items-center justify-center min-h-screen text-gray-950">
         <div class="bg-white w-1/3 p-6 rounded-xl shadow-lg">
@@ -12,20 +13,24 @@
 
             <form action="{{ route('class.document.store', $classRoom->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <label for="">Tiêu đề: </label>
-                <input type="text" name="title" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3" placeholder="Tiêu đề...">
-
-                <label for="">Chủ đề: </label>
-                <select name="topic_id" id="" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3">
+                <label for="title">Tiêu đề: <span class="text-red-500">*</span></label>
+                <input type="text" id="title" name="title" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50" placeholder="Tiêu đề..." value="{{ old('title') }}">
+                @error('title')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+                <span class="mb-3"></span>
+                <label for="topic_id">Chủ đề:</label>
+                <select name="topic_id" id="topic_id" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3">
                     <option value="">Không có chủ đề</option>
                     @foreach ($topics as $topic)
-                    <option value="{{ $topic->id }}">{{ $topic->name }}</option>
+                        <option value="{{ $topic->id }}" {{ old('topic_id') == $topic->id ? 'selected' : '' }}>{{ $topic->name }}</option>
                     @endforeach
                 </select>
 
-                <label for="">Mô tả: </label>
-                <textarea name="description" id="" cols="10" rows="3" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3"></textarea>
-                <label for="">Đính kèm file: </label>
+                <label for="description">Mô tả:</label>
+                <textarea name="description" id="description" cols="10" rows="3" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3">{{ old('description') }}</textarea>
+
+                <label for="document_url">Đính kèm file: <span class="text-red-500">*</span></label>
                 <div class="flex justify-between pb-2">
                     <span class="file-name"></span>
                     <button id="removeFile" class="text-gray-500 hover:text-red-500 hidden show_file">
@@ -49,11 +54,16 @@
                         <input type="file" id="fileInput" class="hidden" name="document_url">
                     </label>
                 </div>
+                @error('document_url')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+
                 <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Tạo</button>
             </form>
         </div>
     </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
@@ -64,3 +74,11 @@
         });
     });
 </script>
+@if ($errors->any())
+    <script>
+        $(document).ready(function() {
+            $('#fileFormModal').removeClass('hidden');
+            $('#overlay').removeClass('hidden');
+        }); 
+    </script>
+@endif

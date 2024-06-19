@@ -39,7 +39,7 @@
                         _token: '{{ csrf_token() }}',
                     },
                     success: function(response) {
-                        
+                        location.reload();
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
@@ -57,6 +57,7 @@
                         _token: '{{ csrf_token() }}',
                     },
                     success: function(response) {
+                        location.reload();
                         
                     },
                     error: function(xhr, status, error) {

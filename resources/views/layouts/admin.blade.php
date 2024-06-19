@@ -32,6 +32,7 @@
                     @include('partial.header-admin')
                 </div>
                 @yield('content')
+                @yield('scripts') 
             </div>
         </div>     
     </body>

@@ -26,7 +26,8 @@ class ExamController extends Controller
         // Lấy tổng số học sinh trong lớp
         $totalStudents = User::whereHas('classRooms', function ($query) use ($classRoomId) {
             $query->where('role', '3')
-                ->where('user_class_rooms.class_room_id', $classRoomId);
+                ->where('user_class_rooms.class_room_id', $classRoomId)
+                ->where('user_class_rooms.status', '3');
             })->count();
 
         // lấy tổng số học sinh đã làm bài kiểm tra 

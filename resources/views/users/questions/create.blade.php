@@ -12,35 +12,59 @@
 
             <form action="{{ route('class.questions.store', $classRoom->id) }}" method="POST">
                 @csrf
-                <label for="">Câu hỏi: </label>
-                <textarea name="content" id="" cols="10" rows="3" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3 mt-2"></textarea>
+                <label for="">Câu hỏi: <span class="text-red-500">*</span></label>
+                <textarea name="content" id="" cols="10" rows="3" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mt-2">{{ old('content') }}</textarea>
+                @error('content')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
 
-                <p class="mb-2">Đáp án:</p>
-                
+                <p class="mb-2 mt-3">Đáp án: <span class="text-red-500">*</span></p>            
                 <div id="answers-container">
+                    @foreach(old('answer_content', ['']) as $index => $answer)
                     <div class="flex gap-1 items-center py-2 answer">
-                        <input type="radio" name="is_correct" value="1"> 
-                        <label for="">A</label> 
-                        <input type="text" name="answer_content[]" class="w-full ml-2 border-gray-300 rounded-md font-light focus:border-blue-50">
-                        <input type="hidden" name="answer_index[]" value="A">
+                        <input type="radio" name="is_correct" value="{{ $index + 1 }}" {{ old('is_correct') == $index + 1 ? 'checked' : '' }}> 
+                        <label for="">{{ chr(65 + $index) }}</label> 
+                        <input type="text" name="answer_content[]" value="{{ $answer }}" class="w-full ml-2 border-gray-300 rounded-md font-light focus:border-blue-50">
+                        <input type="hidden" name="answer_index[]" value="{{ chr(65 + $index) }}">
                         <button type="button" class="remove-answer ml-2 text-red-500 hover:text-red-700">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
                     </div>
+                    @endforeach
                 </div>
                 
+                <div id="answers-container">
+                    @if ($errors->has('answer_content'))
+                        @foreach ($errors->get('answer_content') as $error)
+                            <p class="text-red-500 text-xs mt-1">{{ $error }}</p>
+                        @endforeach
+                    @endif
+
+                    @if ($errors->has('answer_content.*'))
+                        @foreach ($errors->get('answer_content.*') as $error)
+                            <p class="text-red-500 text-xs mt-1">{{ $error[0] }}</p>
+                        @endforeach
+                    @endif
+
+                    @error('is_correct')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
                 <button type="button" id="add-answer" class="mt-3 bg-gray-200 p-2 rounded-md">Thêm đáp án</button>
 
                 <div class="mt-5">
-                    <label for="">Chủ đề: </label>
+                    <label for="">Chủ đề: <span class="text-red-500">*</span></label>
                     <select name="topic_id" id="" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3">
                         <option value="">Chọn chủ đề</option>
                         @foreach ($topics as $topic)
-                            <option value="{{ $topic->id }}">{{ $topic->name }}</option>              
+                            <option value="{{ $topic->id }}" {{ old('topic_id') == $topic->id ? 'selected' : '' }}>{{ $topic->name }}</option>              
                         @endforeach             
                     </select>
+                    @error('topic_id')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                </div>
 
                 <button type="submit" class="w-full bg-blue-500 text-white rounded-md px-2 py-2 mt-5 hover:bg-blue-700">Tạo</button>
@@ -94,3 +118,11 @@
     });
 </script>
 
+@if ($errors->any())
+    <script>
+        $(document).ready(function() {
+            $('#questionFormModal').removeClass('hidden');
+            $('#overlay').removeClass('hidden');
+        }); 
+    </script>
+@endif

@@ -57,9 +57,9 @@
                             <td class="px-12 py-4">{{ ($teachers->currentPage() - 1) * $teachers->perPage() + $key+1 }}</td>
                             <td class="px-6 py-4">{{ $teacher->name }}</td>
                             <td class="px-6 py-4">{{ $teacher->classRooms->first()->pivot->content_role }}</td>
-                            <td class="px-8 py-4">{{ $totalDocuments }}/{{ $totalDocuments }}</td>
-                            <td class="px-8 py-4">{{ $totalHomeWork }}/{{ $totalHomeWork }}</td>
-                            <td class="px-6 py-4">0/0</td>
+                            <td class="px-8 py-4">{{ $totalDocuments[$teacher->id]  }}/{{ $totalDocuments[$teacher->id]  }}</td>
+                            <td class="px-8 py-4">{{ $totalHomeWork[$teacher->id] }}/{{ $totalHomeWork[$teacher->id] }}</td>
+                            <td class="px-6 py-4">{{ $totalExam[$teacher->id] }}/{{ $totalExam[$teacher->id] }}</td>
                             <td class="px-10 py-4 cursor-pointer">
                                 @if($teacher->id !== $classRoom->created_by)
                                     <button type="button" class="deleteTeacher block text-md" data-class-room-id="{{ $classRoom->id }}" data-teacher-id="{{ $teacher->id }}" data-modal-target="deleteModal" data-modal-toggle="deleteModal">                                                                                        

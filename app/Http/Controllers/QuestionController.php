@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreQuestionRequest;
 use App\Models\AnswerQuestion;
 use App\Models\Exam;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class QuestionController extends Controller
         return view('users.questions.index', compact('questions'));
     }
 
-    public function store(Request $request){
+    public function store(StoreQuestionRequest $request){
         try{
             DB::beginTransaction();
             $question = Question::create([
@@ -56,7 +57,7 @@ class QuestionController extends Controller
 
     public function update(Request $request, $id, $questionId){
         try{
-         
+            // dd($request->all());
             $question = Question::find($questionId);
             $exams = $question->exams;
 
@@ -66,6 +67,11 @@ class QuestionController extends Controller
                 $message = "Câu hỏi này đã tồn tại trong bài kiểm tra: $examNames. Vui lòng không chỉnh sửa.";
                 return redirect()->back()->with('status', $message);
             }
+
+            $question->update([
+                'content' => $request['content'],
+                'topic_id' => $request['topic_id'],
+            ]);
 
             // Lấy danh sách các đáp án hiện tại của câu hỏi
             $currentAnswers = AnswerQuestion::where('question_id', $question->id)->get()->keyBy('id');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDocumentRequest;
 use App\Models\ClassRoom;
 use App\Models\Document;
 use Exception;
@@ -34,7 +35,7 @@ class DocumentController extends Controller
 
         return view('users.files.show', compact('filePath'));
     }
-    public function store($id, Request $request)
+    public function store(StoreDocumentRequest $request, $id)
     {
         try {
             $document = $request->all();

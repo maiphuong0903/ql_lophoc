@@ -16,10 +16,10 @@
             @csrf
             @method('PUT')
             
-            <label for="content">Câu hỏi {{ $question->id }}:</label>
+            <label for="content">Câu hỏi {{ $question->id }}: <span class="text-red-500">*</span></label>
             <textarea name="content" id="content" cols="30" rows="3" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3 mt-2">{{ $question->content }}</textarea>
     
-            <p class="mb-2">Đáp án:</p>
+            <p class="mb-2">Đáp án: <span class="text-red-500">*</span></p>
             <div id="answers-container">
                 @foreach ($answers as $index => $answer)
                     <div class="flex gap-1 items-center py-2 answer">
@@ -39,7 +39,7 @@
             <button type="button" id="add-answer" class="mt-3 bg-gray-200 p-2 rounded-md">Thêm đáp án</button>
     
             <div class="mt-5">
-                <label for="topic_id">Chủ đề: </label>
+                <label for="topic_id">Chủ đề: <span class="text-red-500">*</span></label>
                 <select name="topic_id" id="topic_id" class="w-full border-gray-300 rounded-md font-light focus:border-blue-50 mb-3">
                     <option value="">Chọn chủ đề</option>
                     @foreach ($topics as $topic)

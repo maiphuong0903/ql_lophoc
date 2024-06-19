@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\TeacherExport;
 use App\Models\ClassRoom;
 use App\Models\Document;
+use App\Models\Exam;
 use App\Models\HomeWork;
 use App\Models\Notification;
 use App\Models\User;
@@ -43,17 +44,35 @@ class ClassRoleController extends Controller
         $request->session()->put('search', $request->all());
         $teachers->appends($request->all());  
 
-        // lấy ra số lượng tài liệu giáo viên đã tạo trong lớp
-        $totalDocuments = Document::whereHas('author', function ($query) {
-            $query->where('role', '2');
-        })->where('class_room_id', $classRoomId)->count();
+        
+        $totalDocuments = [];
+        $totalHomeWork = [];
+        $totalExam = [];
+        foreach ($teachers as $teacher) {
+            // lấy ra số lượng tài liệu giáo viên đã tạo trong lớp
+            $documentsCount = Document::whereHas('author', function ($query) use ($teacher) {
+                $query->where('id', $teacher->id)
+                ->where('role', '2');
+            })->where('class_room_id', $classRoomId)->count();
+        
+            // lấy ra số lượng bài tập giáo viên đã tạo trong lớp
+            $homeWorkCount = HomeWork::whereHas('author', function ($query)  use ($teacher) {
+                $query->where('id', $teacher->id)
+                ->where('role', '2');
+            })->where('class_room_id', $classRoomId)->count();
 
-        // lấy ra số lượng bài tập giáo viên đã tạo trong lớp
-        $totalHomeWork = HomeWork::whereHas('author', function ($query) {
-            $query->where('role', '2');
-        })->where('class_room_id', $classRoomId)->count();
+            // lấy ra số lượng bài kiểm tra giáo viên đã tạo trong lớp
+            $examCount = Exam::whereHas('author', function ($query)  use ($teacher) {
+                $query->where('id', $teacher->id)
+                ->where('role', '2');
+            })->where('class_room_id', $classRoomId)->count();
 
-        return view('users.class-roles.index', compact('teachers', 'totalDocuments', 'totalHomeWork'));
+            $totalDocuments[$teacher->id] = $documentsCount;
+            $totalHomeWork[$teacher->id] = $homeWorkCount;
+            $totalExam[$teacher->id] = $examCount;
+        }
+
+        return view('users.class-roles.index', compact('teachers', 'totalDocuments', 'totalHomeWork', 'totalExam'));
     }
 
     public function addTeacher($id, Request $request){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\HomeWorksExport;
+use App\Http\Requests\StoreHomeWorkRequest;
 use App\Models\ClassRoom;
 use App\Models\HomeWork;
 use App\Models\User;
@@ -46,7 +47,7 @@ class HomeWorkController extends Controller
     }
 
     // tạo bài tập
-    public function store(Request $request){
+    public function store(StoreHomeWorkRequest $request){
         try{
             $homework = $request->all();   
             

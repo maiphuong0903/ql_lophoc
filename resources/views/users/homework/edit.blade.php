@@ -16,8 +16,11 @@
                 <div class="py-5 px-6 space-y-6">
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-3">
-                            <label for="name" class="font-medium text-gray-900 block mb-2">Tiêu đề</label>
+                            <label for="name" class="font-medium text-gray-900 block mb-2">Tiêu đề <span class="text-red-500">*</span></label>
                             <input type="text" name="title" value="{{ $homework->title }}" class="border border-gray-300 text-gray-900 rounded-md focus:border-blue-300 w-full p-2.5">
+                            @error('title')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-3">
                             <label for="topic_id" class="font-medium text-gray-900 block mb-2">Chủ đề</label>
@@ -31,14 +34,20 @@
                         <div class="col-span-6 sm:col-span-3">
                             <label for="brand" class="text-sm font-medium text-gray-900 block mb-2">Thời gian bắt đầu</label>
                             <input type="date" name="created_date" value="{{ $homework->created_date }}" class="border border-gray-300 text-gray-900 rounded-md focus:border-blue-300 w-full p-2.5">
+                            @error('created_date')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="col-span-6 sm:col-span-3">
                             <label for="price" class="text-sm font-medium text-gray-900 block mb-2">Thời gian kết thúc</label>
                             <input type="date" name="end_date" value="{{ $homework->end_date }}" class="border border-gray-300 text-gray-900 rounded-md focus:border-blue-300 w-full p-2.5">
+                            @error('end_date')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="col-span-full grid grid-cols-1 space-y-2">
-                            <label for="">Đính kèm file: </label>
+                            <label for="">Đính kèm file <span class="text-red-500">*</span></label>
                             <div class="flex justify-between pb-2">
                                 <span class="file-name">{{ $homework->homework_file }}</span>
                                 <button id="removeFile" class="text-gray-500 hover:text-red-500 hidden show_file">
@@ -59,9 +68,12 @@
                                                 Tải lên
                                         </p>
                                     </div>
-                                    <input type="file" id="fileInput" class="hidden" name="homework_file">
+                                    <input type="file" id="fileInput" class="hidden" name="homework_file" value="{{ $homework->homework_file }}">
                                 </label>
                             </div>
+                            @error('document_url')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror  
                         </div>  
 
                         <div class="col-span-full">

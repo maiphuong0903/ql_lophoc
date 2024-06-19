@@ -28,7 +28,8 @@ class ClassRoomController extends Controller
                         });
                     })
                     ->withCount(['users' => function ($query) use ($userId) {
-                        $query->where('status', 3); 
+                        $query->where('status', 3)
+                        ->where('role', 3); 
                     }])
                     
                     ->get();
