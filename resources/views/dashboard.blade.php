@@ -86,7 +86,7 @@
                 labels: ['Nam', 'Nữ'],
                 datasets: [{
                     label: 'Giới tính',
-                    data: [{{ $students }}, {{ $teachers }}], // Thay giá trị này bằng dữ liệu thực tế
+                    data: [{{ $students }}, {{ $teachers }}],
                     backgroundColor: ['#36A2EB', '#FF6384'],
                     hoverOffset: 4
                 }]
@@ -98,10 +98,10 @@
         var classChart = new Chart(ctx2, {
             type: 'bar',
             data: {
-                labels: {!! json_encode($classNames) !!}, // Thay giá trị này bằng dữ liệu thực tế
+                labels: {!! json_encode($classNames) !!}, 
                 datasets: [{
                     label: 'Số học sinh',
-                    data: {!! json_encode($studentCounts) !!}, // Thay giá trị này bằng dữ liệu thực tế
+                    data: {!! json_encode($studentCounts) !!}, 
                     backgroundColor: '#42A5F5',
                     borderColor: '#1E88E5',
                     borderWidth: 1
